@@ -117,7 +117,7 @@ export default function CompareTable() {
                           </span>
                         )}
                       </div>
-                      <a href="#" className="btn-dark !py-2 !text-[11px] w-fit">
+                      <a href="/signup" className="btn-dark !py-2 !text-[11px] w-fit">
                         {i === 3 ? "Contact us" : "Get started"}
                       </a>
                     </div>

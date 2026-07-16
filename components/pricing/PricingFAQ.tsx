@@ -43,7 +43,7 @@ export default function PricingFAQ() {
             Still curious? Book 20 minutes with our team — we&rsquo;ll walk Aristotle and
             Sherlock through one of your live roles.
           </p>
-          <a href="#" className="mt-7 inline-flex btn-dark">
+          <a href="/signup" className="mt-7 inline-flex btn-dark">
             Book a demo
           </a>
         </div>

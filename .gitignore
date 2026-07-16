@@ -11,5 +11,6 @@ out
 .env.test.local
 
 *.tsbuildinfo
+*.log
 next-env.d.ts
 .DS_Store

@@ -522,8 +522,8 @@ function recruiterSteps(): Step[] {
       pillLabel: "ARISTOTLE · RECRUITING AGENT",
       heading: "Turn a messy hiring need into a real search.",
       body: "Tell Aristotle who you need to hire. It turns a rough role idea into a sharp brief, must-have criteria, search logic, and a candidate pipeline your team can actually act on.",
-      primaryCta: { label: "BUILD THE ROLE", href: "#" },
-      secondaryCta: { label: "BOOK A DEMO", href: "#" },
+      primaryCta: { label: "BUILD THE ROLE", href: "/signup" },
+      secondaryCta: { label: "BOOK A DEMO", href: "/signup" },
       visual: (
         <RoleBriefCard
           title="Founding Full-Stack Engineer"
@@ -547,8 +547,8 @@ function recruiterSteps(): Step[] {
       pillLabel: "CANDIDATE SEARCH",
       heading: "Shortlists ranked by evidence, not resume polish.",
       body: "iNGEN finds candidates using the signals recruiters actually care about: shipped projects, GitHub depth, work history, university, clubs, open-source work, and role fit.",
-      primaryCta: { label: "FIND CANDIDATES", href: "#" },
-      secondaryCta: { label: "BOOK A DEMO", href: "#" },
+      primaryCta: { label: "FIND CANDIDATES", href: "/signup" },
+      secondaryCta: { label: "BOOK A DEMO", href: "/signup" },
       visual: (
         <SearchResultsCard
           pillLeft="Proof ranked"
@@ -573,8 +573,8 @@ function recruiterSteps(): Step[] {
       pillLabel: "SHERLOCK · PROOF AGENT",
       heading: "Know if the candidate is actually legit.",
       body: "Sherlock investigates the evidence behind every candidate. It checks GitHub, projects, work history, university, clubs, and public signals to show whether their profile holds up. No keyword theatre. Just receipts.",
-      primaryCta: { label: "RUN PROOF SCAN", href: "#" },
-      secondaryCta: { label: "BOOK A DEMO", href: "#" },
+      primaryCta: { label: "RUN PROOF SCAN", href: "/signup" },
+      secondaryCta: { label: "BOOK A DEMO", href: "/signup" },
       visual: (
         <InsightsChartCard
           filterChips={["Alex Rivera", "92% confidence", "LOW risk"]}
@@ -596,8 +596,8 @@ function recruiterSteps(): Step[] {
       pillLabel: "INTERVIEW COMMAND",
       heading: "Walk into every interview already briefed.",
       body: "iNGEN turns candidate proof into interview context. Your team gets strengths, risks, proof sources, questions, red flags, and a scorecard before the call starts — every interview begins with evidence, not assumptions.",
-      primaryCta: { label: "PREPARE INTERVIEW PACK", href: "#" },
-      secondaryCta: { label: "BOOK A DEMO", href: "#" },
+      primaryCta: { label: "PREPARE INTERVIEW PACK", href: "/signup" },
+      secondaryCta: { label: "BOOK A DEMO", href: "/signup" },
       visual: (
         <EmailComposerCard
           recipientsLabel="Pack ready · Maya Chen · Founding Full-Stack · LOW risk"
@@ -615,8 +615,8 @@ function recruiterSteps(): Step[] {
       pillLabel: "HIRING DASHBOARD",
       heading: "Your hiring pipeline, without the spreadsheet chaos.",
       body: "Track candidates, interviews, budget, team capacity, pipeline movement, and next actions in one recruiter command center. Less hiring chaos. More hiring momentum.",
-      primaryCta: { label: "OPEN DASHBOARD", href: "#" },
-      secondaryCta: { label: "BOOK A DEMO", href: "#" },
+      primaryCta: { label: "OPEN DASHBOARD", href: "/signup" },
+      secondaryCta: { label: "BOOK A DEMO", href: "/signup" },
       visual: (
         <HiringDashboardCard
           stats={[
@@ -644,8 +644,8 @@ function studentSteps(): Step[] {
       pillLabel: "ARISTOTLE · ROADMAP",
       heading: "A time-bound path to the role you want.",
       body: "Tell Aristotle your target role, expertise level, and weekly study time. It generates a visual, role-based roadmap — Data Analyst (360h / 9 months), AI Engineer (520h / 14 months), Frontend Engineer (420h / 12 months) — with branch-by-branch topics and per-node completion tracking.",
-      primaryCta: { label: "BUILD MY ROADMAP", href: "#" },
-      secondaryCta: { label: "WATCH A DEMO", href: "#" },
+      primaryCta: { label: "BUILD MY ROADMAP", href: "/signup" },
+      secondaryCta: { label: "WATCH A DEMO", href: "/signup" },
       visual: (
         <RoleBriefCard
           title="Target role: Frontend Engineer"
@@ -669,8 +669,8 @@ function studentSteps(): Step[] {
       pillLabel: "COLUMBUS · JOB SCOUT",
       heading: "Columbus brings the roles to you.",
       body: "Columbus scrapes RemoteOK, HN Who’s Hiring, GitHub Jobs Archive, Adzuna, and company career pages — then ranks roles by match %, explains the fit, and stages dossiers with salary bands and an apply path. Filter by Remote, Full-time, Internship, Startups, MNC, or 90%+ Match.",
-      primaryCta: { label: "START AN INTAKE", href: "#" },
-      secondaryCta: { label: "WATCH A DEMO", href: "#" },
+      primaryCta: { label: "START AN INTAKE", href: "/signup" },
+      secondaryCta: { label: "WATCH A DEMO", href: "/signup" },
       visual: (
         <SearchResultsCard
           pillLeft="Scout active · 5 staged"
@@ -695,8 +695,8 @@ function studentSteps(): Step[] {
       pillLabel: "ARISTOTLE · PROOF PROFILE",
       heading: "A recruiter-grade dossier, verified by Aristotle.",
       body: "GitHub, projects, hackathons, certifications, testimonials, and society work get scored, verified, and stacked as evidence — skill confidence chips, proof-scored project cards, a role-fit summary with 5 signals, and a readiness meter per track (Frontend, Backend, AI Product).",
-      primaryCta: { label: "BUILD MY PROOF PROFILE", href: "#" },
-      secondaryCta: { label: "WATCH A DEMO", href: "#" },
+      primaryCta: { label: "BUILD MY PROOF PROFILE", href: "/signup" },
+      secondaryCta: { label: "WATCH A DEMO", href: "/signup" },
       visual: (
         <InsightsChartCard
           filterChips={["82% Ready", "7 Projects", "12 Repos", "3 Certifications"]}
@@ -718,8 +718,8 @@ function studentSteps(): Step[] {
       pillLabel: "ARISTOTLE · INTERVIEW COACH",
       heading: "Walk in already knowing the answers.",
       body: "Aristotle turns each project, repo, and signal in your profile into rehearsable talking points — role-fit answers tied to the JD, project stories that show shipped judgment, and a strength-and-gap read so you go into the room prepared, not improvising.",
-      primaryCta: { label: "PREPARE MY INTERVIEW", href: "#" },
-      secondaryCta: { label: "WATCH A DEMO", href: "#" },
+      primaryCta: { label: "PREPARE MY INTERVIEW", href: "/signup" },
+      secondaryCta: { label: "WATCH A DEMO", href: "/signup" },
       visual: (
         <EmailComposerCard
           recipientsLabel="Walk in prepared. Talk like someone who knows their work."
@@ -737,8 +737,8 @@ function studentSteps(): Step[] {
       pillLabel: "COLLECTIONS · SAVED WORKSPACE",
       heading: "A tailored version of you for every role.",
       body: "Save Columbus job dossiers, Aristotle roadmaps, and tailored profile variants (Backend, IBM SDE, Frontend) in one library. High-signal saves stay in reach so each application gets the right version of you — not a generic resume.",
-      primaryCta: { label: "OPEN MY COLLECTIONS", href: "#" },
-      secondaryCta: { label: "WATCH A DEMO", href: "#" },
+      primaryCta: { label: "OPEN MY COLLECTIONS", href: "/signup" },
+      secondaryCta: { label: "WATCH A DEMO", href: "/signup" },
       visual: (
         <HiringDashboardCard
           title="Saved collection · 11 items"

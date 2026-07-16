@@ -12,7 +12,7 @@ const PLANS = [
     yearly: 0,
     period: "free forever",
     cta: "Start free",
-    ctaHref: "#",
+    ctaHref: "/signup",
     features: [
       "1 active role",
       "25 candidate searches / month",
@@ -28,7 +28,7 @@ const PLANS = [
     yearly: 41,
     period: "per seat / month",
     cta: "Get started",
-    ctaHref: "#",
+    ctaHref: "/signup",
     features: [
       "5 active roles per seat",
       "1,000 searches / seat / month",
@@ -45,7 +45,7 @@ const PLANS = [
     yearly: 84,
     period: "per seat / month",
     cta: "Get started",
-    ctaHref: "#",
+    ctaHref: "/signup",
     popular: true,
     features: [
       "Unlimited roles per seat",
@@ -64,7 +64,7 @@ const PLANS = [
     yearly: null,
     period: "tailored to your org",
     cta: "Contact sales",
-    ctaHref: "#",
+    ctaHref: "/signup",
     features: [
       "Everything in Growth",
       "SAML SSO + SCIM provisioning",

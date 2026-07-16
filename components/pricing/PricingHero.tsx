@@ -65,16 +65,6 @@ function BillingToggle({
       aria-label="Billing cycle"
       className="relative inline-flex items-center bg-white border border-hairline rounded-full p-1 shadow-sm"
     >
-      <motion.span
-        aria-hidden
-        layout
-        transition={{ type: "spring", stiffness: 320, damping: 32 }}
-        className="absolute top-1 bottom-1 rounded-full bg-brand-purple shadow-sm"
-        style={{
-          left: cycle === "monthly" ? 4 : "calc(50% + 0px)",
-          width: "calc(50% - 4px)",
-        }}
-      />
       {(["monthly", "yearly"] as Cycle[]).map((c) => {
         const active = cycle === c;
         return (
@@ -83,10 +73,19 @@ function BillingToggle({
             role="tab"
             aria-selected={active}
             onClick={() => onCycleChange(c)}
-            className={`relative z-10 label-mono px-5 py-2.5 rounded-full transition-colors ${
+            className={`relative label-mono px-5 py-2.5 rounded-full transition-colors duration-300 ${
               active ? "text-white" : "text-brand-ink/65 hover:text-brand-ink"
             }`}
           >
+            {active && (
+              <motion.span
+                aria-hidden
+                layoutId="billing-pill"
+                transition={{ type: "spring", stiffness: 320, damping: 32 }}
+                className="absolute inset-0 rounded-full bg-brand-purple shadow-sm"
+              />
+            )}
+            <span className="relative z-10">
             {c === "monthly" ? (
               "Monthly"
             ) : (
@@ -103,6 +102,7 @@ function BillingToggle({
                 </span>
               </span>
             )}
+            </span>
           </button>
         );
       })}

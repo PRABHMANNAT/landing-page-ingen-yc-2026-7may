@@ -134,7 +134,7 @@ function DetailPanel() {
         Available on Starter, Growth, and Business
       </p>
 
-      <a href="#" className="mt-6 btn-dark">
+      <a href="/signup" className="mt-6 btn-dark">
         Get started
       </a>
 

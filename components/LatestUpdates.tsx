@@ -26,11 +26,11 @@ function RecruiterUpdates() {
           <h2 className="font-display text-[44px] md:text-[58px] leading-[1.05] tracking-tightest text-brand-ink max-w-3xl mx-auto">
             What we&apos;re shipping for proof-first hiring teams
           </h2>
-          <a href="#" className="btn-outline mt-7">Read the changelog</a>
+          <a href="/signup" className="btn-outline mt-7">Read the changelog</a>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-6">
-          <a href="#" className="group bg-white border border-black/5 rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+          <a href="/signup" className="group bg-white border border-black/5 rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow">
             <div className="relative h-72 bg-gradient-to-br from-brand-tint via-white to-brand-tint p-8">
               <div className="absolute top-6 left-6">
                 <span className="label-mono bg-brand-purple text-white px-2.5 py-1 rounded-sm">{recruiterFeatured.tag}</span>
@@ -51,7 +51,7 @@ function RecruiterUpdates() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {recruiterPosts.slice(0, 4).map((p) => (
-              <a key={p.title} href="#" className="group bg-white border border-black/5 rounded-md overflow-hidden flex flex-col">
+              <a key={p.title} href="/signup" className="group bg-white border border-black/5 rounded-md overflow-hidden flex flex-col">
                 <div className="h-32 bg-gradient-to-br from-brand-tint to-white p-3 flex items-end">
                   <span className="label-mono bg-brand-deep text-white px-2 py-0.5 rounded-sm">{p.tag}</span>
                 </div>
@@ -124,11 +124,11 @@ function StudentUpdates() {
           <h2 className="font-display text-[44px] md:text-[58px] leading-[1.05] tracking-tightest text-brand-ink max-w-3xl mx-auto">
             What we shipped this month
           </h2>
-          <a href="#" className="btn-outline mt-7">Read the changelog</a>
+          <a href="/signup" className="btn-outline mt-7">Read the changelog</a>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-6">
-          <a href="#" className="group bg-white border border-black/5 rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+          <a href="/signup" className="group bg-white border border-black/5 rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow">
             <div className="relative h-72 bg-gradient-to-br from-brand-tint via-white to-brand-tint p-8">
               <div className="absolute top-6 left-6">
                 <span className="label-mono bg-brand-purple text-white px-2.5 py-1 rounded-sm">{featuredPost.tag}</span>
@@ -149,7 +149,7 @@ function StudentUpdates() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {studentPosts.slice(0, 4).map((p) => (
-              <a key={p.title} href="#" className="group bg-white border border-black/5 rounded-md overflow-hidden flex flex-col">
+              <a key={p.title} href="/signup" className="group bg-white border border-black/5 rounded-md overflow-hidden flex flex-col">
                 <div className="h-32 bg-gradient-to-br from-brand-tint to-white p-3 flex items-end">
                   <span className="label-mono bg-brand-deep text-white px-2 py-0.5 rounded-sm">{p.tag}</span>
                 </div>

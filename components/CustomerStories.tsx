@@ -19,11 +19,11 @@ function RecruiterStories() {
           <h2 className="font-display text-[44px] md:text-[58px] leading-[1.05] tracking-tightest text-brand-ink max-w-3xl">
             How startup teams hire on proof, not resume claims
           </h2>
-          <a href="#" className="btn-outline">View all stories</a>
+          <a href="/signup" className="btn-outline">View all stories</a>
         </div>
         <div className="grid md:grid-cols-2 gap-6 mt-12">
           {recruiterStories.map((s) => (
-            <a key={s.co} href="#" className="group bg-white rounded-md overflow-hidden border border-black/5 shadow-sm hover:shadow-md transition-shadow">
+            <a key={s.co} href="/signup" className="group bg-white rounded-md overflow-hidden border border-black/5 shadow-sm hover:shadow-md transition-shadow">
               <div className={`relative h-56 bg-gradient-to-br ${s.bg} flex items-center justify-center`}>
                 <div className="text-[44px] font-display text-white/80 tracking-tightest drop-shadow-sm">{s.co}</div>
               </div>
@@ -82,11 +82,11 @@ function StudentStories() {
           <h2 className="font-display text-[44px] md:text-[58px] leading-[1.05] tracking-tightest text-brand-ink max-w-3xl">
             Build proof, hit readiness,<br className="hidden md:block" /> land the role
           </h2>
-          <a href="#" className="btn-outline">See all features</a>
+          <a href="/signup" className="btn-outline">See all features</a>
         </div>
 
         {/* Featured card — full width, horizontal */}
-        <a href="#" className="group flex flex-col md:flex-row bg-brand-deep rounded-xl overflow-hidden border border-white/5 shadow-lg hover:shadow-2xl transition-all duration-300 mb-6">
+        <a href="/signup" className="group flex flex-col md:flex-row bg-brand-deep rounded-xl overflow-hidden border border-white/5 shadow-lg hover:shadow-2xl transition-all duration-300 mb-6">
           <div className="flex-1 p-8 md:p-10 flex flex-col justify-between">
             <div>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-lavender/40 bg-brand-lavender/10 px-3 py-1 text-[11px] font-medium text-brand-lavender mb-6">
@@ -121,7 +121,7 @@ function StudentStories() {
         {/* Three smaller cards */}
         <div className="grid md:grid-cols-3 gap-6">
           {smallCards.map((s) => (
-            <a key={s.tag} href="#" className="group flex flex-col bg-white rounded-xl overflow-hidden border border-black/6 shadow-sm hover:shadow-lg hover:border-brand-purple/25 transition-all duration-300">
+            <a key={s.tag} href="/signup" className="group flex flex-col bg-white rounded-xl overflow-hidden border border-black/6 shadow-sm hover:shadow-lg hover:border-brand-purple/25 transition-all duration-300">
               <div className="relative w-full overflow-hidden bg-gray-50" style={{ aspectRatio: "4/3" }}>
                 <Image
                   src={s.img}

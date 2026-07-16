@@ -158,7 +158,7 @@ function FAQSection({
           <p className="mt-5 text-[15px] text-black/65 max-w-md leading-relaxed">
             {intro}
           </p>
-          <a href="#" className="btn-dark mt-7">{ctaLabel}</a>
+          <a href="/signup" className="btn-dark mt-7">{ctaLabel}</a>
         </motion.div>
 
         {/* RIGHT */}

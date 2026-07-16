@@ -12,7 +12,7 @@ export default function AnnouncementBar() {
           iNGEN is live — Aristotle now ships role-fit roadmaps in under 30 seconds
         </span>
         <span className="mx-2 opacity-70">→</span>
-        <a href="#" className="underline underline-offset-2 hover:opacity-90">
+        <a href="/signup" className="underline underline-offset-2 hover:opacity-90">
           See the launch
         </a>
       </div>
@@ -25,7 +25,7 @@ export default function AnnouncementBar() {
         iNGEN for recruiters is live — Sherlock now triangulates GitHub, work, university &amp; club proofs in seconds
       </span>
       <span className="mx-2 opacity-70">→</span>
-      <a href="#" className="underline underline-offset-2 hover:opacity-90">
+      <a href="/signup" className="underline underline-offset-2 hover:opacity-90">
         See how proof-first hiring works
       </a>
     </div>
