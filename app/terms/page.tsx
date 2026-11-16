@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     "The terms that govern your use of iNGen's products, website, and services.",
 };
 
-const LAST_UPDATED = "May 18, 2026";
+const LAST_UPDATED = "November 16, 2026";
 const EFFECTIVE_DATE = "May 18, 2026";
 const CONTACT_EMAIL = "contact@ingenworkspace.com";
 const ABN = "63 688 809 145";
@@ -224,9 +224,10 @@ const SECTIONS: { title: string; body: React.ReactNode }[] = [
     body: (
       <p>
         Some features may require payment. Prices, billing cycles, and refund terms will be
-        shown before you purchase. Unless stated otherwise, fees are non-refundable and
-        exclude taxes, which are your responsibility where applicable. You authorise us to
-        charge your designated payment method for amounts due.
+        shown before you purchase. Unless stated otherwise or required by applicable law,
+        fees are non-refundable. See our <OrangeLink href="/refunds">Refund Policy</OrangeLink>{" "}
+        for help with a charge. Fees exclude taxes, which are your responsibility where
+        applicable. You authorise us to charge your designated payment method for amounts due.
       </p>
     ),
   },

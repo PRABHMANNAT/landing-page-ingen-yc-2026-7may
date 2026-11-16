@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { CookieSettingsButton } from "@/components/PrivacyChoices";
 
 export const metadata: Metadata = {
   title: "Cookie Policy — iNGen",
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
     "How iNGen uses cookies and similar technologies across its website and product.",
 };
 
-const LAST_UPDATED = "June 11, 2026";
+const LAST_UPDATED = "November 16, 2026";
 const EFFECTIVE_DATE = "June 11, 2026";
 const CONTACT_EMAIL = "contact@ingenworkspace.com";
 const ENTITY_NAME = "INGEN LABS PTY LTD";
@@ -92,11 +93,12 @@ const SECTIONS: { title: string; body: React.ReactNode }[] = [
     ),
   },
   {
-    title: "3. Categories we use",
+    title: "3. Public website and product storage",
     body: (
       <>
-        <p>We group cookies into four categories:</p>
-        <div className="mt-2 overflow-hidden rounded-lg border border-black/5">
+        <p>The public site uses browser local storage to remember whether you chose the recruiter or student view (<code>ingen.audience</code>) and to save your cookie choice (<code>ingen.cookie-preferences</code>). Website analytics are currently off. The demo and booking tools are hosted by third parties that may use their own storage.</p>
+        <p>The product may use the following categories of cookies and similar technologies:</p>
+        <div className="mt-2 overflow-x-auto rounded-lg border border-black/5">
           <table className="w-full text-[13px]">
             <thead className="bg-brand-bg/60 text-left">
               <tr>
@@ -133,9 +135,9 @@ const SECTIONS: { title: string; body: React.ReactNode }[] = [
     body: (
       <>
         <p>
-          Where consent is required, we ask before setting optional cookies. You can
-          change your choices at any time from the cookie banner footer, or by clearing
-          cookies in your browser.
+          You can change your website analytics preference at any time in{" "}
+          <CookieSettingsButton className="font-medium text-brand-ink underline decoration-brand-purple underline-offset-4" />.
+          You can also clear this site&apos;s browser data to reset both saved preferences.
         </p>
         <p>
           Most browsers also let you block or delete cookies (Chrome, Safari, Firefox,
@@ -160,6 +162,7 @@ const SECTIONS: { title: string; body: React.ReactNode }[] = [
     title: "6. Retention",
     body: (
       <p>
+        The two public website preferences remain in local storage until you clear the site data.
         Session cookies disappear when you close your browser. Persistent cookies last
         from a few minutes (CSRF tokens) up to 13 months (campaign attribution). We
         review retention periods regularly to keep them as short as practical.
