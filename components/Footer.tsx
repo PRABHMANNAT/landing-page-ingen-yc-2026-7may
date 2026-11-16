@@ -63,32 +63,32 @@ export default function Footer() {
   const groups = [
     ...(audience === "student" ? studentGroups : recruiterGroups),
     { title: "Get Started", links: [
-      ["Join the waitlist", "/signup"], ["Sign up", "/signup"],
-      ["Book a Demo", "/book-demo"], ["Request a walkthrough", "/book-demo"],
+      ["Join the waitlist", "/signup"], ["Sign In", "/login"],
+      ["Book a Demo", "/book-demo"], ["Try the live preview", "/demo"],
     ] } satisfies FooterGroup,
   ];
 
   return (
-    <footer className="relative overflow-hidden bg-[#eeece5] text-[#292824]">
+    <footer className="relative overflow-hidden bg-brand-deep text-white">
       <div className="mx-auto max-w-[1320px] px-6 pb-10 pt-16">
-        <div className="grid grid-cols-2 gap-8 border-b border-black/10 pb-12 md:grid-cols-5">
+        <div className="grid grid-cols-2 gap-8 border-b border-white/10 pb-12 md:grid-cols-5">
           {groups.map(({ title, links }) => (
             <div key={title}>
-              <h2 className="label-mono mb-4 text-black/55">{title}</h2>
+              <h2 className="label-mono mb-4 text-white/65">{title}</h2>
               <ul className="space-y-2.5 text-[13px]">
                 {links.map(([label, href]) => (
                   <li key={label}>
-                    <Link href={href} className="text-black/75 hover:text-black hover:underline">{label}</Link>
+                    <Link href={href} className="text-white/85 hover:text-white hover:underline">{label}</Link>
                   </li>
                 ))}
               </ul>
             </div>
           ))}
         </div>
-        <div aria-hidden="true" className="pointer-events-none mt-10 select-none font-display text-[clamp(68px,16vw,180px)] leading-none tracking-tightest text-black/10">iNGEN</div>
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-x-8 gap-y-5 text-xs text-black/65">
+        <div aria-hidden="true" className="pointer-events-none mt-10 select-none font-display text-[clamp(68px,16vw,180px)] leading-none tracking-tightest text-white/10">iNGEN</div>
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-x-8 gap-y-5 text-xs text-white/75">
           <div className="flex flex-wrap items-center gap-3">
-            <Link href="/" aria-label="iNGEN home"><Logo /></Link>
+            <Link href="/" aria-label="iNGEN home"><Logo light /></Link>
             <span>© 2026 iNGEN · Proof-first hiring</span>
           </div>
           <PolicyLinks />
@@ -97,4 +97,3 @@ export default function Footer() {
     </footer>
   );
 }
-

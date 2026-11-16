@@ -11,7 +11,7 @@ const PLANS = [
     monthly: 0,
     yearly: 0,
     period: "free forever",
-    cta: "Join the waitlist",
+    cta: "Start free",
     ctaHref: "/signup",
     features: [
       "1 active role",
@@ -27,7 +27,7 @@ const PLANS = [
     monthly: 49,
     yearly: 41,
     period: "per seat / month",
-    cta: "Join the waitlist",
+    cta: "Get started",
     ctaHref: "/signup",
     features: [
       "5 active roles per seat",
@@ -44,7 +44,7 @@ const PLANS = [
     monthly: 99,
     yearly: 84,
     period: "per seat / month",
-    cta: "Join the waitlist",
+    cta: "Get started",
     ctaHref: "/signup",
     popular: true,
     features: [
@@ -194,4 +194,3 @@ function CheckMark() {
     </svg>
   );
 }
-

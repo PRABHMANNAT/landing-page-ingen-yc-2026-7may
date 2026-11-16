@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ArticlePage from "@/components/ArticlePage";
 import { resources } from "@/data/resources";
+import ResourceGuide from "@/components/ResourceGuide";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -26,8 +27,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ResourcePage({ params }: Props) {
+  const { slug } = await params;
+  if (slug === "docs") return <ResourceGuide />;
   const { title, description, guidance, next } = getResource(
-    (await params).slug,
+    slug,
   );
 
   return (

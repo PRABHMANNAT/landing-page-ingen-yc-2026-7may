@@ -584,7 +584,7 @@ export default function AuthShell({ mode }: { mode: Mode }) {
 
       <div className="w-full max-w-[880px] grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-5 items-stretch">
         {/* LEFT: Welcome card */}
-        <div className="order-2 lg:order-1 relative rounded-2xl border border-black/[0.06] bg-[#e9eddf] px-5 py-5 sm:px-6 sm:py-6 lg:px-7 lg:py-7 flex flex-col shadow-[0_12px_40px_-12px_rgba(0,0,0,0.08),0_2px_6px_-2px_rgba(0,0,0,0.04)]">
+        <div className="order-2 lg:order-1 relative rounded-2xl border border-black/[0.06] bg-[#f1eef1] px-5 py-5 sm:px-6 sm:py-6 lg:px-7 lg:py-7 flex flex-col shadow-[0_12px_40px_-12px_rgba(0,0,0,0.08),0_2px_6px_-2px_rgba(0,0,0,0.04)]">
           {/* Inner-edge seam shadow on the right (desktop only) */}
           <div
             aria-hidden
@@ -612,10 +612,10 @@ export default function AuthShell({ mode }: { mode: Mode }) {
           </div>
 
           <div className="flex-1 flex items-center justify-center mt-2 sm:mt-3 mb-7 sm:mb-9">
-            <div className="rounded-xl border border-[#d4d1c7] bg-[#faf9f5] p-7 w-full"><p className="eyebrow mb-4">Your next workspace</p><p className="font-display text-3xl leading-tight">Good work starts with a clear direction.</p><p className="mt-5 text-sm leading-relaxed text-[#656259]">Plan the role. Gather the evidence. Prepare for a thoughtful conversation.</p></div>
+            <AuthGlobe />
           </div>
 
-          <p className="text-center text-xs text-[#656259]">Recruiting and career planning, together.</p>
+          <IntegrationsMarquee />
         </div>
 
         {/* RIGHT: Auth panel */}
@@ -672,4 +672,3 @@ export default function AuthShell({ mode }: { mode: Mode }) {
     </main>
   );
 }
-

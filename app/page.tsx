@@ -1,4 +1,3 @@
-import NextSteps from "@/components/NextSteps";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import ToolMarquee from "@/components/ToolMarquee";
@@ -12,13 +11,11 @@ export default function HomePage() {
     <main>
       <Navbar />
       <Hero />
-
+      <ToolMarquee />
       <HowItWorks />
       <GlobeWaitlist />
-      <NextSteps />
       <FAQ />
       <Footer />
     </main>
   );
 }
-

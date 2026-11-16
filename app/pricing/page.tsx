@@ -13,11 +13,10 @@ export const metadata: Metadata = {
 export default function PricingPage() {
   return (
     <main>
-
+      <AnnouncementBar />
       <Navbar />
       <PricingShell />
       <Footer />
     </main>
   );
 }
-
