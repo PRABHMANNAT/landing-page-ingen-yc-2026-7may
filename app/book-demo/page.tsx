@@ -1,28 +1,8 @@
-"use client";
-
 import Link from "next/link";
-import Script from "next/script";
-import { useEffect } from "react";
 import Logo from "@/components/Logo";
-
-const CALENDLY_URL =
-  "https://calendly.com/contact-ingenworkspace/product-demo?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=ea7659";
+import DemoCalendar from "@/components/DemoCalendar";
 
 export default function BookDemoPage() {
-  // Handle client-side navigation: if widget.js is already loaded it won't
-  // auto-scan again, so init the embed manually when it's empty.
-  useEffect(() => {
-    const w = window as unknown as {
-      Calendly?: {
-        initInlineWidget: (o: { url: string; parentElement: HTMLElement }) => void;
-      };
-    };
-    const el = document.getElementById("calendly-embed");
-    if (w.Calendly && el && !el.querySelector("iframe")) {
-      w.Calendly.initInlineWidget({ url: CALENDLY_URL, parentElement: el });
-    }
-  }, []);
-
   return (
     <main className="relative min-h-screen w-full bg-brand-bg flex items-center justify-center px-3 sm:px-6 pt-16 sm:pt-10 pb-6 sm:pb-10">
       <Link
@@ -60,32 +40,22 @@ export default function BookDemoPage() {
             <Logo />
           </Link>
 
-          <h2 className="mt-8 font-display text-[28px] leading-tight text-brand-ink">
+          <h1 className="mt-8 font-display text-[28px] leading-tight text-brand-ink">
             iNGen Product Demo
-          </h2>
+          </h1>
 
           <p className="mt-6 text-[14.5px] leading-relaxed text-brand-ink/70">
-            A live walkthrough of iNGen — Aristotle, Sherlock, and the full
+            A live walkthrough of Aristotle, Sherlock, and the full
             proof-first hiring pipeline. Bring your toughest hiring questions and
             we&apos;ll show you exactly how the workspace handles them.
           </p>
+          <p className="mt-5 text-sm font-medium text-brand-muted">30 minutes · Online</p>
         </div>
 
-        {/* RIGHT: Calendly inline widget */}
-        <div className="flex-1 px-2 py-4 sm:px-4 lg:px-2 lg:py-2">
-          <div
-            id="calendly-embed"
-            className="calendly-inline-widget"
-            data-url={CALENDLY_URL}
-            style={{ height: 700 }}
-          />
+        <div className="min-w-0 flex-1">
+          <DemoCalendar />
         </div>
       </div>
-
-      <Script
-        src="https://assets.calendly.com/assets/external/widget.js"
-        strategy="afterInteractive"
-      />
     </main>
   );
 }

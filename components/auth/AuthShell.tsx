@@ -1,11 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import dynamic from "next/dynamic";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Logo from "@/components/Logo";
 import PolicyLinks from "@/components/PolicyLinks";
-import GlobeErrorBoundary from "@/components/ui/GlobeErrorBoundary";
+import RotatingEarth from "@/components/ui/RotatingEarth";
 
 declare global {
   interface Window {
@@ -73,10 +72,6 @@ function validateEmail(raw: string): { ok: boolean; reason?: string } {
   return { ok: true };
 }
 
-const World = dynamic(() => import("@/components/ui/globe").then((m) => m.World), {
-  ssr: false,
-});
-
 type Chip = {
   label: string;
   cls: string;
@@ -108,69 +103,16 @@ const integrations: { name: string; domain: string }[] = [
   { name: "Coursera",   domain: "coursera.org" },
 ];
 
-function buildArcs() {
-  const colors = ["#ffffff", "#cfcfcf", "#9aa0a6"];
-  const pick = () => colors[Math.floor(Math.random() * colors.length)];
-  return [
-    { order: 1, startLat: 28.6139, startLng: 77.209,  endLat: 51.5072, endLng: -0.1276,    arcAlt: 0.3, color: pick() },
-    { order: 1, startLat: 40.7128, startLng: -74.006, endLat: 35.6762, endLng: 139.6503,   arcAlt: 0.4, color: pick() },
-    { order: 2, startLat: 37.7749, startLng: -122.4194, endLat: 22.3193, endLng: 114.1694, arcAlt: 0.5, color: pick() },
-    { order: 2, startLat: -33.8688, startLng: 151.2093, endLat: 34.0522, endLng: -118.2437, arcAlt: 0.4, color: pick() },
-    { order: 3, startLat: 52.52,   startLng: 13.405,  endLat: 1.3521,  endLng: 103.8198,   arcAlt: 0.3, color: pick() },
-    { order: 3, startLat: 19.0760, startLng: 72.8777, endLat: 48.8566, endLng: 2.3522,     arcAlt: 0.4, color: pick() },
-    { order: 4, startLat: -22.9068, startLng: -43.1729, endLat: 40.7128, endLng: -74.006,  arcAlt: 0.5, color: pick() },
-    { order: 4, startLat: 55.7558, startLng: 37.6173, endLat: 1.3521,  endLng: 103.8198,   arcAlt: 0.4, color: pick() },
-  ];
-}
-
 function AuthGlobe() {
-  const { globeConfig, sampleArcs } = useMemo(
-    () => ({
-      globeConfig: {
-        pointSize: 3,
-        // light-black ocean sphere
-        globeColor: "#2A2A2E",
-        showAtmosphere: true,
-        // soft white atmospheric glow
-        atmosphereColor: "#ffffff",
-        atmosphereAltitude: 0.14,
-        emissive: "#1A1A1F",
-        emissiveIntensity: 0.18,
-        shininess: 0.9,
-        // continents in pure white
-        polygonColor: "rgba(255,255,255,1)",
-        ambientLight: "#ffffff",
-        directionalLeftLight: "#ffffff",
-        directionalTopLight: "#ffffff",
-        pointLight: "#ffffff",
-        arcTime: 1600,
-        arcLength: 0.9,
-        rings: 1,
-        maxRings: 3,
-        initialPosition: { lat: 22.3193, lng: 114.1694 },
-        autoRotate: true,
-        autoRotateSpeed: 0.7,
-      },
-      sampleArcs: buildArcs(),
-    }),
-    []
-  );
-
   return (
     <div
       className="relative mx-auto"
       style={{ width: "clamp(240px, 26vw, 320px)", aspectRatio: "1 / 1" }}
     >
       <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/70 via-transparent to-black/10 blur-2xl" />
-      <div className="absolute inset-0 [&>div]:!w-full [&>div]:!h-full [&_canvas]:!w-full [&_canvas]:!h-full">
-        <GlobeErrorBoundary fallback={
-          <img src="/editorial/globe-recruiter.webp" alt="" width={620} height={620}
-            className="h-full w-full object-contain grayscale" />
-        }>
-          <World data={sampleArcs} globeConfig={globeConfig} />
-        </GlobeErrorBoundary>
+      <div className="absolute inset-0 grayscale">
+        <RotatingEarth tone="dark" />
       </div>
-
       {chips.map((c) => (
         <div
           key={c.label}
