@@ -7,7 +7,7 @@ import { useAudience } from "./AudienceContext";
 const recruiterFaqs = [
   {
     q: "Who can use iNGen?",
-    a: "iNGen is built for recruiters, founders, and hiring leads at startups between Idea and Series A — anyone hunting hard-to-find engineering talent on a constrained budget.",
+    a: "iNGen is built for recruiters, founders, and hiring leads at startups between Idea and Series A, including teams hunting hard-to-find engineering talent on a constrained budget.",
   },
   {
     q: "Can I try iNGen for free?",
@@ -27,26 +27,26 @@ const recruiterFaqs = [
   },
   {
     q: "Will it integrate with my ATS or CRM?",
-    a: "GitHub, LinkedIn, Google Calendar, Gmail, Notion, and Slack are first-class integrations today. ATS connectors for Greenhouse, Lever, and Ashby are on the rolling roadmap — talk to us about your stack.",
+    a: "GitHub, LinkedIn, Google Calendar, Gmail, Notion, and Slack are first-class integrations today. ATS connectors for Greenhouse, Lever, and Ashby are on the rolling roadmap. Talk to us about your stack.",
   },
 ];
 
 const studentFaqs = [
   {
     q: "What is FORGE?",
-    a: "FORGE is iNGEN’s student platform — an AI-assisted career workspace anchored by two agents: Aristotle (roadmap, proof profile, interview prep) and Columbus (job scout). It turns scattered experience into recruiter-grade proof.",
+    a: "FORGE is iNGEN’s student platform, an AI-assisted career workspace anchored by two agents: Aristotle (roadmap, proof profile, interview prep) and Columbus (job scout). It turns scattered experience into recruiter-grade proof.",
   },
   {
     q: "How does the roadmap work?",
-    a: "Tell Aristotle your target role, expertise level (No experience → Master), and weekly study time. It generates a time-bound visual roadmap — e.g. Data Analyst (360h / 9 months), AI Engineer (520h / 14 months), Frontend Engineer (420h / 12 months) — with per-topic completion tracking.",
+    a: "Tell Aristotle your target role, expertise level (No experience → Master), and weekly study time. It generates a time-bound visual roadmap (for example, Data Analyst (360h / 9 months), AI Engineer (520h / 14 months), Frontend Engineer (420h / 12 months)) with per-topic completion tracking.",
   },
   {
     q: "How is Columbus different from LinkedIn or Indeed?",
-    a: "Columbus scouts RemoteOK, HN Who’s Hiring, GitHub Jobs Archive, Adzuna, and company career pages, then ranks each role by match %, explains the fit, and stages dossiers with salary bands and an apply path — no doom-scrolling.",
+    a: "Columbus scouts RemoteOK, HN Who’s Hiring, GitHub Jobs Archive, Adzuna, and company career pages, then ranks each role by match %, explains the fit, and stages dossiers with salary bands and an apply path.",
   },
   {
     q: "Is this just another resume builder?",
-    a: "No. Your proof profile is verified by Aristotle — skill confidence chips (e.g. React 93%, TypeScript 91%, Python 88%), proof-scored project cards, a role-fit summary with 5 signals, testimonials, and a readiness meter per track.",
+    a: "No. Your proof profile is verified by Aristotle, with skill confidence chips (e.g. React 93%, TypeScript 91%, Python 88%), proof-scored project cards, a role-fit summary with 5 signals, testimonials, and a readiness meter per track.",
   },
   {
     q: "Can I keep different profiles for different jobs?",
@@ -54,7 +54,7 @@ const studentFaqs = [
   },
   {
     q: "What does the readiness score mean?",
-    a: "Your “Overall Recruiter Readiness” (e.g. 82%) and per-track meters (Frontend, Backend, AI Product) give you an honest, quantified view of how close you are to interview-ready — preparation as a measurable loop.",
+    a: "Your “Overall Recruiter Readiness” (e.g. 82%) and per-track meters (Frontend, Backend, AI Product) give you an honest, quantified view of how close you are to interview-ready.",
   },
 ];
 
@@ -148,19 +148,19 @@ function FAQSection({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, ease: [0.2, 0.7, 0.2, 1] }}
-          className="relative"
+          className="relative self-start rounded-2xl border border-forge-line bg-white p-6 sm:p-8"
         >
           {/* inner vertical guide rule on the left card edge */}
           <div className="pointer-events-none absolute -left-6 top-0 bottom-0 w-px vertical-rule hidden lg:block" />
 
-          <div className="label-mono text-black/55 mb-3">[06] FAQ</div>
+          <div className="label-mono text-black/55 mb-3">Frequently asked questions</div>
           <h2 className="font-display text-[44px] md:text-[58px] leading-[1.04] tracking-tightest text-black">
             {heading}
           </h2>
           <p className="mt-5 text-[15px] text-black/65 max-w-md leading-relaxed">
             {intro}
           </p>
-          <a href={ctaHref} className="btn-dark mt-7">{ctaLabel}</a>
+          <a href={ctaHref} className="workflow-action workflow-action-primary mt-7">{ctaLabel}</a>
         </motion.div>
 
         {/* RIGHT */}
@@ -203,7 +203,7 @@ export default function FAQ() {
   return (
     <FAQSection
       items={recruiterFaqs}
-      intro="We're here to help. Reach out to our team for guidance on how to integrate iNGen — Aristotle for workflow, Sherlock for proof — into your hiring stack."
+      intro="Learn how Aristotle and Sherlock fit into your hiring workflow, from writing a role brief to reviewing candidate evidence."
       ctaLabel="Book a Demo"
       ctaHref="/book-demo"
     />

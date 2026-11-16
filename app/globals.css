@@ -315,3 +315,23 @@ body {
   0% { opacity: 0; transform: translateY(16px); }
   100% { opacity: 1; transform: translateY(0); }
 }
+
+.workflow-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .55rem;
+  min-height: 44px;
+  padding: .65rem 1rem;
+  border: 1px solid transparent;
+  border-radius: .65rem;
+  font-size: .875rem;
+  font-weight: 600;
+  text-align: center;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+.workflow-action-primary { background: #1d161d; color: white; }
+.workflow-action-primary:hover { background: #45313e; }
+.workflow-action-secondary { border-color: #d7cfc7; background: #fff; color: #1d161d; }
+.workflow-action-secondary:hover { background: #fcf2e9; border-color: #aa7663; }
+.workflow-action:focus-visible { outline: 2px solid #a05238; outline-offset: 3px; }

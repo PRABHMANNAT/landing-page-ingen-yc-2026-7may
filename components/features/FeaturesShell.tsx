@@ -177,6 +177,9 @@ const STUDENT_FEATURES: Feature[] = [
   },
 ];
 
+import FeatureDocumentation from "./FeatureDocumentation";
+import WorkflowVisual from "../WorkflowVisual";
+
 function AgentChip({ agent }: { agent: Feature["agent"] }) {
   const styles: Record<Feature["agent"], string> = {
     Aristotle: "bg-[#6366F1]/10 text-[#6366F1] border-[#6366F1]/25",
@@ -229,7 +232,7 @@ function FeatureCard({ f, index }: { f: Feature; index: number }) {
 }
 
 export default function FeaturesShell() {
-  const { audience } = useAudience();
+  const { audience, setAudience } = useAudience();
   const isStudent = audience === "student";
   const features = isStudent ? STUDENT_FEATURES : RECRUITER_FEATURES;
 
@@ -269,13 +272,13 @@ export default function FeaturesShell() {
             <div className="mt-7 flex flex-wrap justify-center gap-2">
               <Link
                 href={primaryHref}
-                className="inline-flex items-center gap-2 rounded-full bg-brand-ink text-white label-mono px-5 py-3 hover:bg-brand-ink/90 transition-colors"
+                className="workflow-action workflow-action-primary"
               >
                 {primaryLabel}
               </Link>
               <Link
                 href={secondaryHref}
-                className="inline-flex items-center gap-2 rounded-full border border-brand-ink/20 text-brand-ink label-mono px-5 py-3 hover:bg-brand-ink/[0.04] transition-colors"
+                className="workflow-action workflow-action-secondary"
               >
                 {secondaryLabel}
               </Link>
@@ -299,7 +302,7 @@ export default function FeaturesShell() {
 
           <div className="mt-16 sm:mt-20 rounded-2xl border border-black/5 bg-white p-6 sm:p-10 shadow-sm text-center">
             <p className="label-mono text-brand-ink/55">
-              {isStudent ? "Same proof, both sides" : "Same proof, both sides"}
+              The proof profile
             </p>
             <h2 className="mt-3 font-display text-[26px] sm:text-[34px] leading-tight text-brand-ink max-w-[640px] mx-auto">
               {isStudent
@@ -311,21 +314,18 @@ export default function FeaturesShell() {
                 ? "Sherlock — the recruiter-side proof AI — reads the exact signals your FORGE profile surfaces. Build it once, apply many times."
                 : "FORGE students build proof profiles Sherlock can read instantly — verified projects, GitHub evidence, hackathons, and testimonials, scored before they hit your pipeline."}
             </p>
+            <div className="mx-auto mt-7 max-w-xl text-left"><WorkflowVisual title="From project to interview" steps={["Share a work sample", "Review the source and contribution", "Discuss the work in an interview"]} /></div>
             <div className="mt-6 flex flex-wrap justify-center gap-2">
-              <Link
-                href="/"
-                className="inline-flex items-center gap-2 rounded-full bg-brand-ink text-white label-mono px-5 py-3 hover:bg-brand-ink/90 transition-colors"
-              >
-                {isStudent ? "See the recruiter view" : "See the student view"}
-              </Link>
+              <button type="button" onClick={() => setAudience(isStudent ? "recruiter" : "student")} className="workflow-action workflow-action-primary">{isStudent ? "See the recruiter view" : "See the student view"}</button>
               <Link
                 href="/pricing"
-                className="inline-flex items-center gap-2 rounded-full border border-brand-ink/20 text-brand-ink label-mono px-5 py-3 hover:bg-brand-ink/[0.04] transition-colors"
+                className="workflow-action workflow-action-secondary"
               >
                 See pricing
               </Link>
             </div>
           </div>
+          <FeatureDocumentation isStudent={isStudent} />
         </div>
       </section>
     </>

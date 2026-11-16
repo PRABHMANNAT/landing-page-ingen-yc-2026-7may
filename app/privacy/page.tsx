@@ -1,3 +1,4 @@
+import EditorialCover from "@/components/EditorialCover";
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -273,11 +274,12 @@ export default function PrivacyPage() {
   return (
     <main className="bg-brand-bg">
       <Navbar />
+      <EditorialCover photo="data" />
 
       <section className="px-4 pt-10 pb-4">
         <div className="mx-auto max-w-2xl text-center">
           <p className="label-mono text-brand-ink/60">Legal</p>
-          <h1 className="mt-3 font-display text-[30px] md:text-[40px] leading-tight text-brand-ink">
+          <h1 className="mt-3 font-display text-[38px] md:text-[56px] leading-tight text-brand-ink">
             Privacy Policy
           </h1>
           <p className="mt-3 text-[13px] text-brand-ink/70">
@@ -287,7 +289,7 @@ export default function PrivacyPage() {
       </section>
 
       <section className="px-4 pb-16">
-        <div className="mx-auto max-w-2xl rounded-2xl border border-black/5 bg-white px-5 py-7 md:px-8 md:py-10 shadow-sm">
+        <div className="mx-auto max-w-3xl rounded-2xl border border-black/5 bg-white px-5 py-7 md:px-8 md:py-10 shadow-sm">
           <div className="rounded-lg border border-black/5 bg-brand-bg/60 px-4 py-3 text-[13px] leading-6 text-brand-ink/80">
             <p>
               <span className="font-medium text-brand-ink">{ENTITY_NAME}</span> · Australian
@@ -302,19 +304,19 @@ export default function PrivacyPage() {
             </p>
           </div>
 
-          <p className="mt-6 text-[14px] leading-7 text-brand-ink/80">
+          <p className="mt-6 text-[16px] leading-8 text-brand-ink/80">
             This policy explains what personal information iNGen handles, why, who we
             share it with, and the choices you have. We&apos;ve aimed for plain language;
             specifics are in the sections below.
           </p>
 
-          <div className="mt-8 space-y-7">
+          <div className="mt-8 space-y-10">
             {SECTIONS.map((s) => (
               <article key={s.title}>
-                <h2 className="font-display text-[18px] md:text-[19px] text-brand-ink">
+                <h2 className="font-display text-[22px] md:text-[26px] text-brand-ink">
                   {s.title}
                 </h2>
-                <div className="mt-2 space-y-3 text-[14px] leading-7 text-brand-ink/80">
+                <div className="mt-2 space-y-3 text-[16px] leading-8 text-brand-ink/80">
                   {s.body}
                 </div>
               </article>

@@ -47,17 +47,9 @@ const World = dynamic(
 );
 
 function GlobeFallback({ tone }: { tone: "dark" | "light" }) {
-  const bg =
-    tone === "dark"
-      ? "radial-gradient(circle at 50% 50%, #B054E7 0%, #5B2A8A 35%, #2A232A 70%, #1A1620 100%)"
-      : "radial-gradient(circle at 50% 50%, #F5A623 0%, #D88010 35%, #1A1A1F 75%, #0E0E10 100%)";
   return (
-    <div className="relative w-full aspect-square max-w-[520px] mx-auto">
-      <div
-        className="absolute inset-0 rounded-full opacity-90"
-        style={{ background: bg }}
-      />
-    </div>
+    <img src={`/editorial/globe-${tone === "dark" ? "recruiter" : "student"}.webp`} alt=""
+      width={620} height={620} className="mx-auto w-full max-w-[260px] sm:max-w-[340px] md:max-w-[440px] lg:max-w-[500px]" />
   );
 }
 
@@ -520,17 +512,17 @@ function RecruiterWaitlistForm() {
         )}
       </div>
 
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-3 text-[13px] text-white/65 pt-2">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/15 pt-4 text-sm text-white/75">
         <span className="inline-flex items-center gap-1.5">
           <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand-lavender shadow-[0_0_8px_1px_rgba(176,84,231,0.6)]" />
-          No spam, unsubscribe anytime
+          We’ll email you when access opens.
         </span>
 
         <Link
           href={SIGNUP_URL}
           className="group inline-flex items-center gap-1.5 rounded-full border border-brand-lavender/40 bg-brand-lavender/[0.12] px-3 py-1 text-[12px] font-medium text-brand-lavender backdrop-blur-md transition-all duration-300 hover:bg-brand-lavender/25 hover:border-brand-lavender/80 hover:text-white hover:shadow-[0_8px_24px_-10px_rgba(176,84,231,0.6)]"
         >
-          Continue to waitlist page
+          Open signup
           <svg
             width="12"
             height="12"
@@ -571,11 +563,28 @@ function RecruiterWaitlistForm() {
 function StudentWaitlistForm() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState("");
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
-    setSubmitted(true);
+    if (pending) return;
+    setPending(true);
+    setError("");
+    try {
+      const response = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim() }),
+      });
+      const result = await response.json();
+      if (response.ok && result.ok) setSubmitted(true);
+      else setError(result.error || "Please try again in a moment.");
+    } catch {
+      setError("Could not reach the waitlist. Please try again.");
+    } finally {
+      setPending(false);
+    }
   };
 
   if (submitted) {
@@ -594,15 +603,14 @@ function StudentWaitlistForm() {
   }
 
   return (
-    <div className="space-y-6">
-      <span className="label-mono text-forge-amber">Early access</span>
+    <div className="space-y-5 rounded-2xl border border-forge-line bg-[#fffaf2] p-6 shadow-sm sm:p-8">
+      <span className="label-mono text-[#865122]">Early access</span>
       <h2 className="font-display text-[30px] sm:text-[36px] md:text-[40px] lg:text-[46px] leading-[1.05] tracking-tightest text-forge-ink">
         Join the FORGE waitlist
       </h2>
       <p className="text-[15px] sm:text-[16px] leading-relaxed max-w-md text-forge-ink/70">
-        Be first inside FORGE — Aristotle for your roadmap and proof profile,
-        Columbus for ranked job dossiers, and Collections for every tailored
-        version of you.
+        Get access to Aristotle for roadmaps and profiles, Columbus for job discovery,
+        and Collections for organising your applications.
       </p>
 
       <form
@@ -615,12 +623,15 @@ function StudentWaitlistForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@university.edu"
+          aria-label="Email address"
+          autoComplete="email"
           className="flex-1 min-w-0 bg-transparent outline-none px-3 py-2 text-[15px] text-forge-ink placeholder:text-forge-mute"
         />
-        <button type="submit" className="btn-amber whitespace-nowrap w-full sm:w-auto">
-          Join waitlist
+        <button type="submit" disabled={pending} className="btn-amber whitespace-nowrap w-full sm:w-auto disabled:opacity-60">
+          {pending ? "Joining…" : "Join waitlist"}
         </button>
       </form>
+      {error && <p role="alert" className="text-sm text-red-800">{error}</p>}
 
     </div>
   );

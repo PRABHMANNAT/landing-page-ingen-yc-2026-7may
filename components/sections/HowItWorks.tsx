@@ -965,13 +965,13 @@ export default function HowItWorks({
               <div className="flex flex-wrap gap-2">
                 <a
                   href={step.primaryCta.href}
-                  className="text-[12px] font-mono uppercase tracking-[0.1em] bg-ink text-white px-5 py-3"
+                  className="workflow-action workflow-action-primary"
                 >
                   {step.primaryCta.label}
                 </a>
                 <a
                   href={step.secondaryCta.href}
-                  className="text-[12px] font-mono uppercase tracking-[0.1em] border border-ink text-ink px-5 py-3"
+                  className="workflow-action workflow-action-secondary"
                 >
                   {step.secondaryCta.label}
                 </a>
@@ -1131,13 +1131,13 @@ export default function HowItWorks({
                   <div className="flex flex-wrap gap-2">
                     <a
                       href={steps[activeIndex].primaryCta.href}
-                      className="text-[12px] font-mono uppercase tracking-[0.1em] bg-ink text-white px-5 py-3"
+                      className="workflow-action workflow-action-primary"
                     >
                       {steps[activeIndex].primaryCta.label}
                     </a>
                     <a
                       href={steps[activeIndex].secondaryCta.href}
-                      className="text-[12px] font-mono uppercase tracking-[0.1em] border border-ink text-ink px-5 py-3"
+                      className="workflow-action workflow-action-secondary"
                     >
                       {steps[activeIndex].secondaryCta.label}
                     </a>

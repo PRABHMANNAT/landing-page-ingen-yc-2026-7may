@@ -12,10 +12,10 @@ export default function PricingHero({
   onCycleChange: (c: Cycle) => void;
 }) {
   return (
-    <section className="relative pt-20 md:pt-28 pb-14 md:pb-16">
-      <FoldedCorner />
+    <section className="relative mx-auto max-w-[1320px] px-5 pt-8 pb-9 sm:px-8 sm:pt-12">
 
-      <div className="mx-auto max-w-[1320px] px-6 text-center">
+
+      <div className="relative isolate overflow-hidden rounded-[28px] border border-[#eadbcf] bg-[#f8eee4] px-5 py-12 text-center sm:px-10 sm:py-16 [background-image:radial-gradient(ellipse_at_top,#ffe0c7,transparent_60%),linear-gradient(120deg,#fcf9f4,#f4e8df)]">
         <motion.span
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
@@ -29,7 +29,7 @@ export default function PricingHero({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mt-6 font-display text-[44px] sm:text-[64px] md:text-[80px] leading-[1.02] tracking-tightest text-brand-ink max-w-[1080px] mx-auto"
+          className="mt-5 font-display text-[40px] sm:text-[56px] md:text-[70px] leading-[1.02] tracking-tightest text-brand-ink max-w-[850px] mx-auto"
         >
           Flexible plans for every hiring stage.
         </motion.h1>
@@ -40,8 +40,7 @@ export default function PricingHero({
           transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
           className="mt-5 text-[17px] md:text-[18px] text-brand-muted max-w-2xl mx-auto"
         >
-          From your first proof-first hire to org-wide deployment — Aristotle and Sherlock
-          scale with you. Pay per seat, add agents when you need them.
+          Compare plans for your first role or a growing hiring team. Choose monthly or yearly billing to see the price per seat.
         </motion.p>
 
         <div className="mt-10 flex justify-center">
@@ -61,7 +60,7 @@ function BillingToggle({
 }) {
   return (
     <div
-      role="tablist"
+      role="group"
       aria-label="Billing cycle"
       className="relative inline-flex items-center bg-white border border-hairline rounded-full p-1 shadow-sm"
     >
@@ -70,8 +69,8 @@ function BillingToggle({
         return (
           <button
             key={c}
-            role="tab"
-            aria-selected={active}
+            type="button"
+            aria-pressed={active}
             onClick={() => onCycleChange(c)}
             className={`relative label-mono px-5 py-2.5 rounded-full transition-colors duration-300 ${
               active ? "text-white" : "text-brand-ink/65 hover:text-brand-ink"
@@ -107,36 +106,5 @@ function BillingToggle({
         );
       })}
     </div>
-  );
-}
-
-function FoldedCorner() {
-  return (
-    <svg
-      aria-hidden
-      className="absolute top-4 right-6 md:right-10 w-[68px] h-[68px] text-brand-purple/35"
-      viewBox="0 0 80 80"
-      fill="none"
-    >
-      <path
-        d="M2 2H58L78 22V78H2V2Z"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M58 2V22H78"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M58 2L78 22"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinejoin="round"
-        strokeDasharray="2 3"
-      />
-    </svg>
   );
 }

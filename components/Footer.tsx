@@ -7,22 +7,11 @@ import { useAudience } from "./AudienceContext";
 
 type FooterGroup = { title: string; links: [label: string, href: string][] };
 
-const company: FooterGroup = {
-  title: "Company",
-  links: [
-    ["About Us", "/resources/about"],
-    ["Careers", "https://v0-ingen-labs-careers-page.vercel.app/"],
-    ["Blog", "/resources/blog"],
-    ["Media Kit", "/resources/media"],
-    ["Press", "/resources/press"],
-  ],
-};
-
 const recruiterGroups: FooterGroup[] = [
   { title: "Platform", links: [
     ["Dashboard", "/resources/dashboard"],
-    ["Aristotle — workflow AI", "/resources/aristotle"],
-    ["Sherlock — proof AI", "/resources/sherlock"],
+    ["Aristotle", "/resources/aristotle"],
+    ["Sherlock", "/resources/sherlock"],
     ["Interviews", "/resources/interviews"],
     ["Settings", "/resources/settings"],
   ] },
@@ -32,7 +21,6 @@ const recruiterGroups: FooterGroup[] = [
     ["Proof scoring guide", "/resources/proof-scoring"],
     ["Partners", "/resources/partners"], ["Help Center", "/resources/help"],
   ] },
-  company,
   { title: "Security & Legal", links: [
     ["Trust Center", "/trust"], ["AI Audit Center", "/resources/ai-audit"],
     ["Privacy Choices", "/cookies"], ["Data handling", "/privacy"],
@@ -55,7 +43,6 @@ const studentGroups: FooterGroup[] = [
     ["Referral", "/resources/referrals"], ["Discord community", "/resources/community"],
     ["Study guides", "/resources/study-guides"],
   ] },
-  company,
 ];
 
 export default function Footer() {
@@ -63,15 +50,15 @@ export default function Footer() {
   const groups = [
     ...(audience === "student" ? studentGroups : recruiterGroups),
     { title: "Get Started", links: [
-      ["Join the waitlist", "/signup"], ["Sign In", "/login"],
-      ["Book a Demo", "/book-demo"], ["Try the live preview", "/demo"],
+      ["Join the waitlist", "/signup"], ["Sign up", "/signup"],
+      ["Book a Demo", "/signup"], ["Try the live preview", "/signup"],
     ] } satisfies FooterGroup,
   ];
 
   return (
     <footer className="relative overflow-hidden bg-brand-deep text-white">
       <div className="mx-auto max-w-[1320px] px-6 pb-10 pt-16">
-        <div className="grid grid-cols-2 gap-8 border-b border-white/10 pb-12 md:grid-cols-5">
+        <div className="grid grid-cols-2 gap-8 border-b border-white/10 pb-12 md:grid-cols-4">
           {groups.map(({ title, links }) => (
             <div key={title}>
               <h2 className="label-mono mb-4 text-white/65">{title}</h2>
