@@ -64,7 +64,7 @@ const PLANS = [
     yearly: null,
     period: "tailored to your org",
     cta: "Contact sales",
-    ctaHref: "/signup",
+    ctaHref: "mailto:contact@ingenworkspace.com?subject=iNGEN%20Business%20plan",
     features: [
       "Everything in Growth",
       "SAML SSO + SCIM provisioning",
