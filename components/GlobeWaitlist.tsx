@@ -3,8 +3,6 @@
 import {
   useState,
   useMemo,
-  Component,
-  ReactNode,
   useCallback,
   useEffect,
   useRef,
@@ -13,6 +11,7 @@ import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useAudience } from "./AudienceContext";
+import GlobeErrorBoundary from "./ui/GlobeErrorBoundary";
 
 const SIGNUP_URL = "/signup";
 
@@ -51,21 +50,6 @@ function GlobeFallback({ tone }: { tone: "dark" | "light" }) {
     <img src={`/editorial/globe-${tone === "dark" ? "recruiter" : "student"}.webp`} alt=""
       width={620} height={620} className="mx-auto w-full max-w-[260px] sm:max-w-[340px] md:max-w-[440px] lg:max-w-[500px]" />
   );
-}
-
-class GlobeErrorBoundary extends Component<
-  { children: ReactNode; fallback: ReactNode },
-  { hasError: boolean }
-> {
-  state = { hasError: false };
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-  componentDidCatch() {}
-  render() {
-    if (this.state.hasError) return this.props.fallback;
-    return this.props.children;
-  }
 }
 
 function ThemedGlobe({ tone }: { tone: "dark" | "light" }) {

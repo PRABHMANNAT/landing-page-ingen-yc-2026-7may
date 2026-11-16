@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Logo from "@/components/Logo";
 import PolicyLinks from "@/components/PolicyLinks";
+import GlobeErrorBoundary from "@/components/ui/GlobeErrorBoundary";
 
 declare global {
   interface Window {
@@ -162,7 +163,12 @@ function AuthGlobe() {
     >
       <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/70 via-transparent to-black/10 blur-2xl" />
       <div className="absolute inset-0 [&>div]:!w-full [&>div]:!h-full [&_canvas]:!w-full [&_canvas]:!h-full">
-        <World data={sampleArcs} globeConfig={globeConfig} />
+        <GlobeErrorBoundary fallback={
+          <img src="/editorial/globe-recruiter.webp" alt="" width={620} height={620}
+            className="h-full w-full object-contain grayscale" />
+        }>
+          <World data={sampleArcs} globeConfig={globeConfig} />
+        </GlobeErrorBoundary>
       </div>
 
       {chips.map((c) => (
@@ -666,7 +672,7 @@ export default function AuthShell({ mode }: { mode: Mode }) {
               </div>
             )}
           </div>
-          <PolicyLinks className="mt-6 justify-center text-brand-ink/75" />
+          {!isWaitlist && <PolicyLinks className="mt-6 justify-center text-brand-ink/75" />}
         </div>
       </div>
     </main>
