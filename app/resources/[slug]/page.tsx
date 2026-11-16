@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import ArticlePage from "@/components/ArticlePage";
 import { resources } from "@/data/resources";
 
-type Props = { params: { slug: string } };
+type Props = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
 
@@ -17,18 +17,18 @@ function getResource(slug: string) {
   return resources[slug];
 }
 
-export function generateMetadata({ params }: Props): Metadata {
-  const resource = getResource(params.slug);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const resource = getResource((await params).slug);
   return { title: `${resource.title} — iNGEN`, description: resource.description };
 }
 
-export default function ResourcePage({ params }: Props) {
-  const { title, description, guidance, next } = getResource(params.slug);
+export default async function ResourcePage({ params }: Props) {
+  const { title, description, guidance, next } = getResource((await params).slug);
 
   return (
     <ArticlePage category="Resources" title={title} description={description}>
-      <p>{guidance}</p>
-      <p><Link href={next.href}>{next.label}</Link></p>
+      <section><h2>Put it into practice</h2><p>{guidance}</p></section>
+      <section><h2>Continue exploring</h2><p><Link href={next.href}>{next.label}</Link></p><p className="mt-4">For questions about availability or your workspace, <Link href="/resources/help">contact the iNGEN team</Link>.</p></section>
     </ArticlePage>
   );
 }
