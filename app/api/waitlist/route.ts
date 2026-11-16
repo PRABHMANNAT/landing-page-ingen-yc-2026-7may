@@ -164,14 +164,13 @@ export async function POST(req: NextRequest) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     console.warn(
-      "[waitlist] RESEND_API_KEY is not set. Signup received but no email was sent:",
-      { email, source, displayName }
+      "[waitlist] Email service is not configured."
     );
     return NextResponse.json(
       {
         ok: false,
         error:
-          "Email service isn't configured yet. Set RESEND_API_KEY in your environment.",
+          "We couldn’t save your request right now. Please try again later or contact contact@ingenworkspace.com.",
       },
       { status: 503 }
     );
@@ -250,3 +249,4 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json({ ok: true, email, source });
 }
+
