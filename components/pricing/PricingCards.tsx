@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 type Cycle = "monthly" | "yearly";
 
-const PLANS = [
+export const PLANS = [
   {
     name: "Explorer",
     description: "Try Aristotle on a single role with one teammate.",

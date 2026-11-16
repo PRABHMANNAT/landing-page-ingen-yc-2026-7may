@@ -7,6 +7,7 @@ import ResourceGuide from "@/components/ResourceGuide";
 import EditorialCover from "@/components/EditorialCover";
 import WorkflowVisual from "@/components/WorkflowVisual";
 import { platformGuides } from "@/data/platformGuides";
+import { studentDocumentation } from "@/data/studentDocumentation";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -36,6 +37,7 @@ export default async function ResourcePage({ params }: Props) {
     slug,
   );
   const guide = platformGuides[slug];
+  const documentation = studentDocumentation[slug];
 
   return (
     <ArticlePage category="Resources" title={title} description={description} cover={slug === "ai-audit" ? <EditorialCover photo="audit" /> : undefined}>
@@ -53,11 +55,32 @@ export default async function ResourcePage({ params }: Props) {
           <p>Set the recommendation aside until a reviewer can verify it. Share a brief, de-identified example with the team through the <Link href="/trust">Trust Center</Link>. Keep private candidate materials within the authorised workspace.</p>
         </section>
       </>}
-      {guide && <WorkflowVisual title={title} steps={guide.steps} />}
+      {documentation && (
+        <nav aria-label="On this page" className="rounded-xl border border-forge-line bg-brand-bg p-5">
+          <p className="label-mono mb-2 text-brand-muted">On this page</p>
+          <ol className="list-decimal space-y-1 pl-5 text-sm">
+            {documentation.chapters.map(([heading], index) => (
+              <li key={heading}><a href={`#guide-${index + 1}`}>{heading}</a></li>
+            ))}
+            <li><a href="#practice">Interactive checklist</a></li>
+          </ol>
+        </nav>
+      )}
+      {documentation?.chapters.map(([heading, copy], index) => (
+        <section key={heading} id={`guide-${index + 1}`} className="scroll-mt-32">
+          <h2>{heading}</h2>
+          <p>{copy}</p>
+        </section>
+      ))}
       <section>
         <h2>Put it into practice</h2>
         <p>{guidance}</p>
       </section>
+      {documentation ? (
+        <div id="practice" className="scroll-mt-32">
+          <WorkflowVisual title="Try the workflow" steps={documentation.labels} details={documentation.notes} />
+        </div>
+      ) : guide && <WorkflowVisual title={title} steps={guide.steps} />}
       {guide && <>
         <section><h2>Worked example</h2><p>{guide.example}</p></section>
         <section><h2>Before you move on</h2><p>{guide.review}</p></section>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { platformGuides } from "@/data/platformGuides";
+import { studentDocumentation } from "@/data/studentDocumentation";
 import WorkflowVisual from "../WorkflowVisual";
 
 const recruiter = [
@@ -21,15 +22,18 @@ export default function FeatureDocumentation({ isStudent }: { isStudent: boolean
           ? "Work through a first roadmap, then use the projects you finish to build a profile and choose what to apply for."
           : "Follow one role from the first brief to the interview. Keep the evidence and decisions in view as the hiring team reviews candidates."}</p>
       </div>
-      <div className="mt-10 grid gap-8 lg:grid-cols-2">
+      <div className="mt-10 grid gap-5 lg:grid-cols-2">
         {chapters.map(([title, slug]) => {
           const guide = platformGuides[slug];
-          return <article key={slug} className="flex flex-col gap-4 rounded-2xl border border-forge-line bg-white p-5 sm:p-7">
-            <WorkflowVisual title={title} steps={guide.steps} />
-            <h3 className="font-display text-2xl">{title}</h3>
-            <p className="leading-7 text-brand-muted">{guide.example}</p>
-            <p className="leading-7 text-brand-muted">{guide.review}</p>
-            <Link href={`/resources/${slug}`} className="workflow-action workflow-action-secondary mt-auto self-start">Read the guide <span aria-hidden>↗</span></Link>
+          const documentation = studentDocumentation[slug];
+          return <article key={slug} className="flex flex-col gap-5 rounded-2xl border border-forge-line bg-white p-5 shadow-sm sm:p-7">
+            <div>
+              <h3 className="font-display text-2xl leading-tight">{title}</h3>
+              <p className="mt-3 leading-7 text-brand-muted">{guide.example}</p>
+            </div>
+            <WorkflowVisual title="Practice checklist" steps={documentation?.labels ?? guide.steps} details={documentation?.notes} />
+            <p className="border-l-2 border-[#c99178] pl-3 text-sm leading-6 text-brand-muted">{guide.review}</p>
+            <Link href={`/resources/${slug}`} className="workflow-action workflow-action-secondary mt-auto self-start" aria-label={`Read the guide: ${title}`}>Read the guide <span aria-hidden>↗</span></Link>
           </article>;
         })}
       </div>

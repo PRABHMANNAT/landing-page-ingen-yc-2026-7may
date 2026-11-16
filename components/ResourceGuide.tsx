@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import WorkflowVisual from "./WorkflowVisual";
 
 const chapters = [
   { id: "start", title: "Getting started" },
@@ -40,6 +41,13 @@ export default function ResourceGuide() {
               <h3>What to bring</h3>
               <ul className="list-disc pl-5"><li>Recruiters can bring a draft job brief, the outcomes expected from the role, and the questions the team needs to resolve.</li><li>Students can bring a target role, a realistic weekly time budget, and one or two work samples they have permission to share.</li></ul>
             </section>
+            <WorkflowVisual title="Choose a starting point"
+              steps={["Choose your audience", "Look through the workspace", "Prepare a sample"]}
+              details={[
+                "Use the recruiter guide if you’re hiring and the student guide if you’re planning your next role.",
+                "Try the public demo to see where job briefs, proof profiles, and collections fit.",
+                "Bring a draft role or a work sample to try the workflow with details you have permission to share.",
+              ]} />
             <section id="recruiters" className={sectionClass}>
               <h2>The recruiter workflow</h2>
               <h3>Define the role with Aristotle</h3>

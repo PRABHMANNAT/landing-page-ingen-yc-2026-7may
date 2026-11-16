@@ -7,6 +7,7 @@ import AgentsAddOn from "./AgentsAddOn";
 import TrustBar from "./TrustBar";
 import CompareTable from "./CompareTable";
 import PricingFAQ from "./PricingFAQ";
+import BillingGuide from "./BillingGuide";
 
 export default function PricingShell() {
   const [cycle, setCycle] = useState<"monthly" | "yearly">("monthly");
@@ -14,6 +15,7 @@ export default function PricingShell() {
     <>
       <PricingHero cycle={cycle} onCycleChange={setCycle} />
       <PricingCards cycle={cycle} />
+      <BillingGuide cycle={cycle} />
       <DiagonalBand />
       <AgentsAddOn />
       <TrustBar />

@@ -2,16 +2,14 @@
 
 import {
   useState,
-  useMemo,
   useCallback,
   useEffect,
   useRef,
 } from "react";
 import { motion } from "framer-motion";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useAudience } from "./AudienceContext";
-import GlobeErrorBoundary from "./ui/GlobeErrorBoundary";
+import RotatingEarth from "./ui/RotatingEarth";
 
 const SIGNUP_URL = "/signup";
 
@@ -39,136 +37,6 @@ declare global {
 type GoogleTokenClient = {
   requestAccessToken: (overrides?: Record<string, unknown>) => void;
 };
-
-const World = dynamic(
-  () => import("./ui/globe").then((m) => m.World),
-  { ssr: false }
-);
-
-function GlobeFallback({ tone }: { tone: "dark" | "light" }) {
-  return (
-    <img src={`/editorial/globe-${tone === "dark" ? "recruiter" : "student"}.webp`} alt=""
-      width={620} height={620} className="mx-auto w-full max-w-[260px] sm:max-w-[340px] md:max-w-[440px] lg:max-w-[500px]" />
-  );
-}
-
-function ThemedGlobe({ tone }: { tone: "dark" | "light" }) {
-
-  const { globeConfig, sampleArcs } = useMemo(() => {
-    if (tone === "dark") {
-      // Recruiter / dark — brand purple palette
-      const colors = ["#B054E7", "#DA60D4", "#9B51E0"];
-      return {
-        globeConfig: {
-          pointSize: 4,
-          globeColor: "#2A232A",
-          showAtmosphere: true,
-          atmosphereColor: "#B054E7",
-          atmosphereAltitude: 0.12,
-          emissive: "#1D161D",
-          emissiveIntensity: 0.18,
-          shininess: 0.9,
-          polygonColor: "rgba(238,232,253,0.55)",
-          ambientLight: "#B054E7",
-          directionalLeftLight: "#ffffff",
-          directionalTopLight: "#ffffff",
-          pointLight: "#EEE8FD",
-          arcTime: 1400,
-          arcLength: 0.9,
-          rings: 1,
-          maxRings: 3,
-          initialPosition: { lat: 22.3193, lng: 114.1694 },
-          autoRotate: true,
-          autoRotateSpeed: 0.5,
-        },
-        sampleArcs: buildArcs(colors),
-      };
-    }
-    // Student / light — forge amber + indigo palette
-    const colors = ["#F5A623", "#6366F1", "#7DD3C0"];
-    return {
-      globeConfig: {
-        pointSize: 4,
-        globeColor: "#1A1A1F",
-        showAtmosphere: true,
-        atmosphereColor: "#F5A623",
-        atmosphereAltitude: 0.12,
-        emissive: "#0E0E10",
-        emissiveIntensity: 0.2,
-        shininess: 0.9,
-        polygonColor: "rgba(245,239,230,0.7)",
-        ambientLight: "#F5A623",
-        directionalLeftLight: "#FFB347",
-        directionalTopLight: "#ffffff",
-        pointLight: "#FBF7EF",
-        arcTime: 1400,
-        arcLength: 0.9,
-        rings: 1,
-        maxRings: 3,
-        initialPosition: { lat: 22.3193, lng: 114.1694 },
-        autoRotate: true,
-        autoRotateSpeed: 0.5,
-      },
-      sampleArcs: buildArcs(colors),
-    };
-  }, [tone]);
-
-  return (
-    <GlobeErrorBoundary fallback={<GlobeFallback tone={tone} />}>
-      <div className="relative w-full aspect-square max-w-[260px] sm:max-w-[340px] md:max-w-[440px] lg:max-w-[500px] mx-auto">
-        <div className="absolute inset-0">
-          <World data={sampleArcs} globeConfig={globeConfig} />
-        </div>
-      </div>
-    </GlobeErrorBoundary>
-  );
-}
-
-function buildArcs(colors: string[]) {
-  const pick = () => colors[Math.floor(Math.random() * colors.length)];
-  return [
-    { order: 1, startLat: -19.885592, startLng: -43.951191, endLat: -22.9068, endLng: -43.1729, arcAlt: 0.1, color: pick() },
-    { order: 1, startLat: 28.6139, startLng: 77.209, endLat: 3.139, endLng: 101.6869, arcAlt: 0.2, color: pick() },
-    { order: 1, startLat: -19.885592, startLng: -43.951191, endLat: -1.303396, endLng: 36.852443, arcAlt: 0.5, color: pick() },
-    { order: 2, startLat: 1.3521, startLng: 103.8198, endLat: 35.6762, endLng: 139.6503, arcAlt: 0.2, color: pick() },
-    { order: 2, startLat: 51.5072, startLng: -0.1276, endLat: 3.139, endLng: 101.6869, arcAlt: 0.3, color: pick() },
-    { order: 2, startLat: -15.785493, startLng: -47.909029, endLat: 36.162809, endLng: -115.119411, arcAlt: 0.3, color: pick() },
-    { order: 3, startLat: -33.8688, startLng: 151.2093, endLat: 22.3193, endLng: 114.1694, arcAlt: 0.3, color: pick() },
-    { order: 3, startLat: 21.3099, startLng: -157.8581, endLat: 40.7128, endLng: -74.006, arcAlt: 0.3, color: pick() },
-    { order: 3, startLat: -6.2088, startLng: 106.8456, endLat: 51.5072, endLng: -0.1276, arcAlt: 0.3, color: pick() },
-    { order: 4, startLat: 11.986597, startLng: 8.571831, endLat: -15.595412, endLng: -56.05918, arcAlt: 0.5, color: pick() },
-    { order: 4, startLat: -34.6037, startLng: -58.3816, endLat: 22.3193, endLng: 114.1694, arcAlt: 0.7, color: pick() },
-    { order: 4, startLat: 51.5072, startLng: -0.1276, endLat: 48.8566, endLng: -2.3522, arcAlt: 0.1, color: pick() },
-    { order: 5, startLat: 14.5995, startLng: 120.9842, endLat: 51.5072, endLng: -0.1276, arcAlt: 0.3, color: pick() },
-    { order: 5, startLat: 1.3521, startLng: 103.8198, endLat: -33.8688, endLng: 151.2093, arcAlt: 0.2, color: pick() },
-    { order: 5, startLat: 34.0522, startLng: -118.2437, endLat: 48.8566, endLng: -2.3522, arcAlt: 0.2, color: pick() },
-    { order: 6, startLat: -15.432563, startLng: 28.315853, endLat: 1.094136, endLng: -63.34546, arcAlt: 0.7, color: pick() },
-    { order: 6, startLat: 37.5665, startLng: 126.978, endLat: 35.6762, endLng: 139.6503, arcAlt: 0.1, color: pick() },
-    { order: 6, startLat: 22.3193, startLng: 114.1694, endLat: 51.5072, endLng: -0.1276, arcAlt: 0.3, color: pick() },
-    { order: 7, startLat: -19.885592, startLng: -43.951191, endLat: -15.595412, endLng: -56.05918, arcAlt: 0.1, color: pick() },
-    { order: 7, startLat: 48.8566, startLng: -2.3522, endLat: 52.52, endLng: 13.405, arcAlt: 0.1, color: pick() },
-    { order: 7, startLat: 52.52, startLng: 13.405, endLat: 34.0522, endLng: -118.2437, arcAlt: 0.2, color: pick() },
-    { order: 8, startLat: -8.833221, startLng: 13.264837, endLat: -33.936138, endLng: 18.436529, arcAlt: 0.2, color: pick() },
-    { order: 8, startLat: 49.2827, startLng: -123.1207, endLat: 52.3676, endLng: 4.9041, arcAlt: 0.2, color: pick() },
-    { order: 8, startLat: 1.3521, startLng: 103.8198, endLat: 40.7128, endLng: -74.006, arcAlt: 0.5, color: pick() },
-    { order: 9, startLat: 51.5072, startLng: -0.1276, endLat: 34.0522, endLng: -118.2437, arcAlt: 0.2, color: pick() },
-    { order: 9, startLat: 22.3193, startLng: 114.1694, endLat: -22.9068, endLng: -43.1729, arcAlt: 0.7, color: pick() },
-    { order: 9, startLat: 1.3521, startLng: 103.8198, endLat: -34.6037, endLng: -58.3816, arcAlt: 0.5, color: pick() },
-    { order: 10, startLat: -22.9068, startLng: -43.1729, endLat: 28.6139, endLng: 77.209, arcAlt: 0.7, color: pick() },
-    { order: 10, startLat: 34.0522, startLng: -118.2437, endLat: 31.2304, endLng: 121.4737, arcAlt: 0.3, color: pick() },
-    { order: 10, startLat: -6.2088, startLng: 106.8456, endLat: 52.3676, endLng: 4.9041, arcAlt: 0.3, color: pick() },
-    { order: 11, startLat: 41.9028, startLng: 12.4964, endLat: 34.0522, endLng: -118.2437, arcAlt: 0.2, color: pick() },
-    { order: 11, startLat: -6.2088, startLng: 106.8456, endLat: 31.2304, endLng: 121.4737, arcAlt: 0.2, color: pick() },
-    { order: 11, startLat: 22.3193, startLng: 114.1694, endLat: 1.3521, endLng: 103.8198, arcAlt: 0.2, color: pick() },
-    { order: 12, startLat: 34.0522, startLng: -118.2437, endLat: 37.7749, endLng: -122.4194, arcAlt: 0.1, color: pick() },
-    { order: 12, startLat: 35.6762, startLng: 139.6503, endLat: 22.3193, endLng: 114.1694, arcAlt: 0.2, color: pick() },
-    { order: 12, startLat: 22.3193, startLng: 114.1694, endLat: 34.0522, endLng: -118.2437, arcAlt: 0.3, color: pick() },
-    { order: 13, startLat: 52.52, startLng: 13.405, endLat: 22.3193, endLng: 114.1694, arcAlt: 0.3, color: pick() },
-    { order: 13, startLat: 11.986597, startLng: 8.571831, endLat: 35.6762, endLng: 139.6503, arcAlt: 0.3, color: pick() },
-    { order: 13, startLat: -22.9068, startLng: -43.1729, endLat: -34.6037, endLng: -58.3816, arcAlt: 0.1, color: pick() },
-    { order: 14, startLat: -33.936138, startLng: 18.436529, endLat: 21.395643, endLng: 39.883798, arcAlt: 0.3, color: pick() },
-  ];
-}
 
 const GoogleIcon = (
   <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden>
@@ -672,7 +540,7 @@ export default function GlobeWaitlist() {
             transition={{ duration: 0.9, ease: "easeOut" }}
           >
             <div className="relative w-full flex items-center justify-center h-[280px] sm:h-[360px] md:h-[460px] lg:h-[520px]">
-              <ThemedGlobe key={isStudent ? "light" : "dark"} tone={isStudent ? "light" : "dark"} />
+              <RotatingEarth key={isStudent ? "light" : "dark"} tone={isStudent ? "light" : "dark"} />
             </div>
 
             {isStudent && (

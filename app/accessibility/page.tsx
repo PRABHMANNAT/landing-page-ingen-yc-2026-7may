@@ -9,6 +9,11 @@ export const metadata: Metadata = {
 export default function AccessibilityPage() {
   return (
     <ArticlePage category="Policies" title="Accessibility Statement" description="We aim to make the iNGEN website usable by people with disabilities. This statement applies to the public website.">
+      <div className="rounded-xl border border-forge-line bg-brand-bg p-5">
+        <p className="font-semibold text-brand-ink">Having trouble using iNGEN?</p>
+        <p className="my-2 text-sm leading-6">Tell us which page or task caused a problem so we can help you complete it.</p>
+        <a className="workflow-action workflow-action-secondary !no-underline" href="mailto:contact@ingenworkspace.com?subject=Website%20accessibility">Contact accessibility support</a>
+      </div>
       <section>
         <h2>Accessibility standard</h2>
         <p>The <a href="https://www.w3.org/TR/WCAG22/">Web Content Accessibility Guidelines (WCAG) 2.2</a> are our reference for improving website accessibility. The site has not been formally assessed for conformance.</p>

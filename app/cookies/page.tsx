@@ -216,6 +216,13 @@ export default function CookiesPage() {
             This page explains the cookies and similar technologies iNGen uses on our
             website and in the product, why we use them, and how you can control them.
           </p>
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-forge-line bg-brand-bg p-4 sm:p-5">
+            <div>
+              <p className="font-semibold text-brand-ink">Your cookie preferences</p>
+              <p className="mt-1 text-sm text-brand-muted">Review or change the choice saved on this browser.</p>
+            </div>
+            <CookieSettingsButton className="workflow-action workflow-action-primary" />
+          </div>
 
           <div className="mt-8 space-y-10">
             {SECTIONS.map((s) => (

@@ -9,8 +9,6 @@ import {
 } from "react";
 import {
   motion,
-  useTransform,
-  useMotionValue,
   useReducedMotion,
 } from "framer-motion";
 import {
@@ -785,13 +783,10 @@ export default function HowItWorks({
   const studentSubheadline =
     "Aristotle builds your roadmap, profile, and interview prep. Columbus scouts roles ranked by fit. Collections keep every tailored version of you ready to apply.";
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const stickyRef = useRef<HTMLDivElement>(null);
   const tabBarRef = useRef<HTMLDivElement>(null);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [indicator, setIndicator] = useState({ x: 0, w: 0 });
-  const [inView, setInView] = useState(false);
   const [isDesktop, setIsDesktop] = useState(true);
 
   useEffect(() => {
@@ -801,56 +796,6 @@ export default function HowItWorks({
     mq.addEventListener("change", update);
     return () => mq.removeEventListener("change", update);
   }, []);
-
-  const scrollYProgress = useMotionValue(0);
-
-  useEffect(() => {
-    let raf = 0;
-    const update = () => {
-      const el = containerRef.current;
-      if (!el) return;
-      const offsetTop = el.offsetTop;
-      const range = el.offsetHeight - window.innerHeight;
-      const y = window.scrollY || window.pageYOffset || 0;
-      const p =
-        range > 0 ? Math.min(1, Math.max(0, (y - offsetTop) / range)) : 0;
-      scrollYProgress.set(p);
-      setActiveIndex(
-        Math.min(
-          steps.length - 1,
-          Math.max(0, Math.floor(p * steps.length - 1e-6)),
-        ),
-      );
-    };
-    const onScroll = () => {
-      update();
-    };
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, [scrollYProgress, steps.length]);
-
-  // Smooth color crossfade between bgColors
-  const bgColor = useTransform(
-    scrollYProgress,
-    steps.map((_, i) => i / Math.max(1, steps.length - 1)),
-    steps.map((s) => s.bgColor),
-  );
-
-  // Subtle parallax for the visual card
-  const visualY = useTransform(scrollYProgress, [0, 1], [0, -40]);
-
-  // Heading lift-in on first pin
-  const headingY = useTransform(scrollYProgress, [0, 0.08], [10, 0]);
-  const headingOpacity = useTransform(scrollYProgress, [0, 0.06], [0, 1]);
-
-  // Bottom progress bar scaleX
-  const progressScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   // Update tab indicator position on activeIndex / resize
   useEffect(() => {
@@ -867,44 +812,11 @@ export default function HowItWorks({
     return () => window.removeEventListener("resize", update);
   }, [activeIndex, steps.length]);
 
-  // Track when section is in view (for keyboard arrow handling)
-  useEffect(() => {
-    if (!containerRef.current) return;
-    const obs = new IntersectionObserver(
-      (entries) => entries.forEach((e) => setInView(e.isIntersecting)),
-      { threshold: 0.2 },
-    );
-    obs.observe(containerRef.current);
-    return () => obs.disconnect();
-  }, []);
-
-  const scrollToStep = (i: number) => {
-    const c = containerRef.current;
-    if (!c) return;
-    const top = c.offsetTop + (i / steps.length) * c.offsetHeight + 1;
-    window.scrollTo({ top, behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    if (!inView) return;
-    const onKey = (e: globalThis.KeyboardEvent) => {
-      if (e.key === "ArrowDown" || e.key === "ArrowRight") {
-        e.preventDefault();
-        scrollToStep(Math.min(steps.length - 1, activeIndex + 1));
-      } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
-        e.preventDefault();
-        scrollToStep(Math.max(0, activeIndex - 1));
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [inView, activeIndex, steps.length]);
-
   /* ------------------------- Mobile / reduced-motion ------------------------- */
   if (!isDesktop || reducedMotion) {
     return (
       <section className="bg-white">
-        <div className="mx-auto max-w-[1280px] px-6 lg:px-12 pt-16 lg:pt-24 pb-10">
+        <div className="mx-auto max-w-[1280px] px-6 lg:px-12 pt-9 lg:pt-12 pb-6">
           <div className="text-[13px] font-mono uppercase tracking-[0.18em] text-ink/60 mb-1.5">
             [{sectionNumber}] {eyebrowLabel}
           </div>
@@ -924,7 +836,7 @@ export default function HowItWorks({
             </p>
           )}
         </div>
-        <div className="space-y-16 pb-24">
+        <div className="space-y-10 pb-14">
           {steps.map((step) => (
             <motion.article
               key={step.id}
@@ -992,23 +904,15 @@ export default function HowItWorks({
     );
   }
 
-  /* ----------------------------- Desktop pinned ----------------------------- */
+  /* ----------------------------- Desktop ----------------------------- */
   return (
     <section
-      ref={containerRef}
       className="relative bg-white"
-      style={{ height: `${steps.length * 100}vh` }}
       aria-label="How it works"
     >
-      <div
-        ref={stickyRef}
-        className="sticky top-0 h-screen overflow-hidden flex flex-col"
-      >
+      <div className="flex flex-col">
         {/* Header */}
-        <motion.div
-          style={{ y: headingY, opacity: headingOpacity }}
-          className="mx-auto max-w-[1280px] w-full px-12 pt-16"
-        >
+        <div className="mx-auto max-w-[1280px] w-full px-12 pt-9">
           <div className="text-[13px] font-mono uppercase tracking-[0.18em] text-ink/60 mb-1.5">
             [{sectionNumber}] {eyebrowLabel}
           </div>
@@ -1027,12 +931,12 @@ export default function HowItWorks({
               {studentSubheadline}
             </p>
           )}
-        </motion.div>
+        </div>
 
         {/* Tab strip */}
         <div
           ref={tabBarRef}
-          className="relative mt-12 border-y border-ink/15 h-14 flex"
+          className="relative mt-7 border-y border-ink/15 h-14 flex"
           role="tablist"
           aria-label="Feature steps"
         >
@@ -1047,8 +951,18 @@ export default function HowItWorks({
                 }}
                 role="tab"
                 aria-selected={isActive}
-                aria-controls={`hiw-panel-${step.id}`}
-                onClick={() => scrollToStep(i)}
+                aria-controls="hiw-panel"
+                id={`hiw-tab-${step.id}`}
+                tabIndex={isActive ? 0 : -1}
+                onClick={() => setActiveIndex(i)}
+                onKeyDown={(event) => {
+                  if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+                  event.preventDefault();
+                  const direction = event.key === "ArrowRight" ? 1 : -1;
+                  const next = event.key === "Home" ? 0 : event.key === "End" ? steps.length - 1 : (i + direction + steps.length) % steps.length;
+                  setActiveIndex(next);
+                  tabRefs.current[next]?.focus();
+                }}
                 className={`relative flex items-center gap-2 px-4 flex-1 min-w-[180px] max-w-[240px] border-r border-ink/15 transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-ink ${
                   isActive ? "text-ink" : "text-ink/40 hover:text-ink/70"
                 }`}
@@ -1071,23 +985,18 @@ export default function HowItWorks({
             animate={{ x: indicator.x, width: indicator.w }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
           />
-          <motion.div
-            className="absolute bottom-[-1px] left-0 h-[2px] bg-ink/80 origin-left"
-            style={{ scaleX: progressScale, width: "100%" }}
-            aria-hidden
-          />
         </div>
 
         {/* Two columns */}
-        <div className="grid grid-cols-2 flex-1 min-h-0">
+        <div className="grid grid-cols-2 min-h-[490px]">
           {/* Left visual */}
           <motion.div
             className="relative overflow-hidden"
-            style={{ background: bgColor }}
+            animate={{ backgroundColor: steps[activeIndex].bgColor }}
           >
             <div className="absolute inset-0 hatched-on-color pointer-events-none" />
-            <div className="relative h-full w-full flex items-center justify-center px-12">
-              <motion.div style={{ y: visualY }} className="w-full max-w-[520px]">
+            <div className="relative h-full w-full flex items-center justify-center p-8">
+              <motion.div className="w-full max-w-[520px]">
                 <motion.div
                   key={steps[activeIndex].id}
                   initial={{ opacity: 0, y: 24 }}
@@ -1103,11 +1012,12 @@ export default function HowItWorks({
 
           {/* Right text */}
           <div className="relative bg-white">
-            <div className="h-full w-full px-16 py-16 flex items-center">
+            <div className="h-full w-full px-10 py-10 flex items-center">
                 <motion.div
                   key={steps[activeIndex].id + "-text"}
-                  id={`hiw-panel-${steps[activeIndex].id}`}
+                  id="hiw-panel"
                   role="tabpanel"
+                  aria-labelledby={`hiw-tab-${steps[activeIndex].id}`}
                   initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, ease: EASE }}

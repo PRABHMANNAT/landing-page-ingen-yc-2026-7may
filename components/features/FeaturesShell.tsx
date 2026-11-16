@@ -9,14 +9,19 @@ import {
   Brain,
   Users,
   Settings,
-  Map,
+  Route,
   Briefcase,
   UserCircle,
   BookMarked,
   MessageSquare,
   Sparkles,
+  ChevronDown,
 } from "lucide-react";
 import { useAudience } from "@/components/AudienceContext";
+import { platformGuides } from "@/data/platformGuides";
+import { studentDocumentation } from "@/data/studentDocumentation";
+import FeatureDocumentation from "./FeatureDocumentation";
+import WorkflowVisual from "../WorkflowVisual";
 
 type Feature = {
   icon: React.ComponentType<{ className?: string }>;
@@ -24,6 +29,7 @@ type Feature = {
   title: string;
   body: string;
   bullets: string[];
+  guide: string;
 };
 
 const RECRUITER_FEATURES: Feature[] = [
@@ -31,6 +37,7 @@ const RECRUITER_FEATURES: Feature[] = [
     icon: LayoutDashboard,
     agent: "Workspace",
     title: "Startup Hiring Dashboard",
+    guide: "dashboard",
     body: "Your daily command center — interviews, budget, capacity, and the next action, all in one grid.",
     bullets: [
       "Month calendar with interview dots and today marker",
@@ -44,6 +51,7 @@ const RECRUITER_FEATURES: Feature[] = [
     icon: FileText,
     agent: "Aristotle",
     title: "Job Brief Builder",
+    guide: "aristotle",
     body: "Two-minute conversational intake that emits a recruiter-ready brief, a LinkedIn post, and a Boolean search query in one pass.",
     bullets: [
       "Chat-first intake with quick-start chips",
@@ -56,6 +64,7 @@ const RECRUITER_FEATURES: Feature[] = [
     icon: Search,
     agent: "Aristotle",
     title: "Candidate Search & Intake",
+    guide: "aristotle",
     body: "Paste a draft JD or describe the role roughly. Aristotle turns it into a structured candidate intake and discovery surface.",
     bullets: [
       "Pre-set quick-start chips: Backend MVP, Data analyst, Founding full-stack, Product designer v1",
@@ -67,6 +76,7 @@ const RECRUITER_FEATURES: Feature[] = [
     icon: Brain,
     agent: "Sherlock",
     title: "Analyse Profile",
+    guide: "sherlock",
     body: "Sherlock triangulates GitHub, LinkedIn, university, work, and club signals into a verified proof score — investigation, not vibes.",
     bullets: [
       "Deep-dive proof investigation on any candidate",
@@ -79,6 +89,7 @@ const RECRUITER_FEATURES: Feature[] = [
     icon: Users,
     agent: "Sherlock",
     title: "Interview Command Live",
+    guide: "interviews",
     body: "Sherlock-powered triage and prep — every candidate ready for screen, with proof sources visible at a glance.",
     bullets: [
       "Top Proof Sources constellation (USYD, MS, AMZ, GH, AWS, K8S…)",
@@ -91,6 +102,7 @@ const RECRUITER_FEATURES: Feature[] = [
     icon: Settings,
     agent: "Workspace",
     title: "Workspace Settings",
+    guide: "settings",
     body: "Tune the agents, your hiring defaults, interview flow, and integrations to match how your startup hires.",
     bullets: [
       "Stage-aware ranking: Idea / Pre-seed / Seed / Series A",
@@ -103,21 +115,23 @@ const RECRUITER_FEATURES: Feature[] = [
 
 const STUDENT_FEATURES: Feature[] = [
   {
-    icon: Map,
+    icon: Route,
     agent: "Aristotle",
     title: "Roadmap",
+    guide: "roadmap",
     body: "Tell Aristotle your target role, expertise level, and weekly study time. Get a visual, time-bound roadmap calibrated to your goal.",
     bullets: [
       "Quick suggestions: Data Analyst (360h / 9mo), AI Engineer (520h / 14mo), Frontend (420h / 12mo)",
       "Customize by expertise (No experience → Master), goal, and weekly hours",
       "Mind-map canvas with branch expand and per-node completion",
-      "Live telemetry: 0 of 52 topics · 420 hours · Updated just now",
+      "See completed topics and update your study schedule as you go",
     ],
   },
   {
     icon: Briefcase,
     agent: "Columbus",
     title: "Jobs · Columbus Scout",
+    guide: "jobs",
     body: "Columbus scrapes the open web, ranks roles by fit, explains why they match, and stages dossiers ready to apply.",
     bullets: [
       "Sources: RemoteOK, HN Who’s Hiring, GitHub Jobs Archive, Adzuna, company career pages",
@@ -130,6 +144,7 @@ const STUDENT_FEATURES: Feature[] = [
     icon: UserCircle,
     agent: "Aristotle",
     title: "Manage Profile · Proof Profile",
+    guide: "profile",
     body: "Your scattered experience — GitHub, projects, hackathons, certifications, testimonials — verified, scored, and stacked as evidence.",
     bullets: [
       "Skill confidence chips (React 93% · TypeScript 91% · Python 88%)",
@@ -143,6 +158,7 @@ const STUDENT_FEATURES: Feature[] = [
     icon: BookMarked,
     agent: "Workspace",
     title: "Collections",
+    guide: "collections",
     body: "Every Columbus dossier, tailored profile variant, and Aristotle roadmap saved in one library — a tailored version of you for every role.",
     bullets: [
       "Filter pills: All · Saved Profiles · Jobs · Roadmaps",
@@ -155,6 +171,7 @@ const STUDENT_FEATURES: Feature[] = [
     icon: MessageSquare,
     agent: "Aristotle",
     title: "Aristotle Chat",
+    guide: "roadmap",
     body: "A persistent left-rail assistant with contextual prompts and quick-suggestion chips, collapsible to free up canvas.",
     bullets: [
       "Quick prompts: “Update my profile for backend role at DoorDash”",
@@ -167,6 +184,7 @@ const STUDENT_FEATURES: Feature[] = [
     icon: Sparkles,
     agent: "Workspace",
     title: "Warm Engineering Notebook",
+    guide: "collections",
     body: "Cream paper, dotted grid, indigo intelligence, orange highlighter — a workspace that reads like an engineer’s notebook, not a dashboard.",
     bullets: [
       "Light and dark modes that preserve accent palette",
@@ -176,9 +194,6 @@ const STUDENT_FEATURES: Feature[] = [
     ],
   },
 ];
-
-import FeatureDocumentation from "./FeatureDocumentation";
-import WorkflowVisual from "../WorkflowVisual";
 
 function AgentChip({ agent }: { agent: Feature["agent"] }) {
   const styles: Record<Feature["agent"], string> = {
@@ -191,14 +206,15 @@ function AgentChip({ agent }: { agent: Feature["agent"] }) {
     <span
       className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-mono uppercase tracking-[0.12em] ${styles[agent]}`}
     >
-      <span className="inline-block w-1.5 h-1.5 rounded-full bg-current" />
-      {agent}
+      {agent === "Workspace" ? "Workspace tool" : `Powered by ${agent}`}
     </span>
   );
 }
 
 function FeatureCard({ f, index }: { f: Feature; index: number }) {
   const Icon = f.icon;
+  const documentation = studentDocumentation[f.guide];
+  const steps = documentation?.labels ?? platformGuides[f.guide].steps;
   return (
     <motion.article
       initial={{ opacity: 0, y: 24 }}
@@ -208,8 +224,8 @@ function FeatureCard({ f, index }: { f: Feature; index: number }) {
       className="group relative rounded-2xl border border-black/5 bg-white p-6 sm:p-7 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"
     >
       <div className="flex items-start justify-between gap-3 mb-4">
-        <div className="w-10 h-10 rounded-xl bg-brand-ink/[0.04] border border-black/5 flex items-center justify-center">
-          <Icon className="w-5 h-5 text-brand-ink/80" />
+        <div className="grid size-12 shrink-0 place-items-center rounded-2xl border border-[#e6c9b9] bg-[#f8e8df]">
+          <Icon className="size-6 text-[#87503c]" />
         </div>
         <AgentChip agent={f.agent} />
       </div>
@@ -227,6 +243,13 @@ function FeatureCard({ f, index }: { f: Feature; index: number }) {
           </li>
         ))}
       </ul>
+      <details className="group/preview mt-5 border-t border-forge-line pt-4">
+        <summary className="flex min-h-9 cursor-pointer list-none items-center justify-between gap-2 text-sm font-semibold text-[#87503c] [&::-webkit-details-marker]:hidden">
+          Try the {f.title === "Roadmap" ? "roadmap" : "workflow"} demo
+          <ChevronDown size={16} className="motion-safe:transition-transform group-open/preview:rotate-180" aria-hidden />
+        </summary>
+        <WorkflowVisual title={f.title} steps={steps} details={documentation?.notes} className="mt-3" />
+      </details>
     </motion.article>
   );
 }
@@ -314,7 +337,15 @@ export default function FeaturesShell() {
                 ? "Sherlock — the recruiter-side proof AI — reads the exact signals your FORGE profile surfaces. Build it once, apply many times."
                 : "FORGE students build proof profiles Sherlock can read instantly — verified projects, GitHub evidence, hackathons, and testimonials, scored before they hit your pipeline."}
             </p>
-            <div className="mx-auto mt-7 max-w-xl text-left"><WorkflowVisual title="From project to interview" steps={["Share a work sample", "Review the source and contribution", "Discuss the work in an interview"]} /></div>
+            <div className="mx-auto mt-7 max-w-xl text-left">
+              <WorkflowVisual key={audience} title="From project to interview"
+                steps={["Share a work sample", "Review the source and contribution", "Discuss the work in an interview"]}
+                details={[
+                  "Include a permitted link, your contribution, and one outcome the reviewer can check.",
+                  "Open the source and separate what it demonstrates from what still needs a follow-up.",
+                  "Ask about one decision, alternative, or test result using the same role criteria for each candidate.",
+                ]} />
+            </div>
             <div className="mt-6 flex flex-wrap justify-center gap-2">
               <button type="button" onClick={() => setAudience(isStudent ? "recruiter" : "student")} className="workflow-action workflow-action-primary">{isStudent ? "See the recruiter view" : "See the student view"}</button>
               <Link
