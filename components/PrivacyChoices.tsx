@@ -4,19 +4,30 @@ import Link from "next/link";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 const STORAGE_KEY = "ingen.cookie-preferences";
-const PrivacyChoicesContext = createContext<((trigger: HTMLButtonElement) => void) | null>(null);
+const PrivacyChoicesContext = createContext<
+  ((trigger: HTMLButtonElement) => void) | null
+>(null);
 
 export function CookieSettingsButton({ className }: { className?: string }) {
   const open = useContext(PrivacyChoicesContext);
 
   return (
-    <button type="button" disabled={!open} className={className} onClick={(event) => open?.(event.currentTarget)}>
+    <button
+      type="button"
+      disabled={!open}
+      className={className}
+      onClick={(event) => open?.(event.currentTarget)}
+    >
       Cookie settings
     </button>
   );
 }
 
-export default function PrivacyChoices({ children }: { children: React.ReactNode }) {
+export default function PrivacyChoices({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [open, setOpen] = useState(false);
   const [choice, setChoice] = useState<"analytics" | "essential" | null>();
   const heading = useRef<HTMLHeadingElement>(null);
@@ -62,10 +73,13 @@ export default function PrivacyChoices({ children }: { children: React.ReactNode
     dismiss();
   }
 
-  const buttonClass = "rounded-xl px-3 py-2 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black";
+  const buttonClass =
+    "rounded-xl px-3 py-2 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black";
 
   return (
-    <PrivacyChoicesContext.Provider value={choice === undefined ? null : openSettings}>
+    <PrivacyChoicesContext.Provider
+      value={choice === undefined ? null : openSettings}
+    >
       {open && (
         <section
           role="dialog"
@@ -78,24 +92,58 @@ export default function PrivacyChoices({ children }: { children: React.ReactNode
         >
           <div>
             <p className="label-mono text-brand-muted">Privacy choices</p>
-            <h2 id="privacy-choices-title" ref={heading} tabIndex={-1} className="mt-1 font-display text-xl leading-tight focus:outline-none">
+            <h2
+              id="privacy-choices-title"
+              ref={heading}
+              tabIndex={-1}
+              className="mt-1 font-display text-xl leading-tight focus:outline-none"
+            >
               Your privacy matters.
             </h2>
-            <p id="privacy-choices-description" className="mt-2 text-xs leading-relaxed text-brand-muted">
-              We remember your preferences on this device. Optional analytics are currently off.
+            <p
+              id="privacy-choices-description"
+              className="mt-2 text-xs leading-relaxed text-brand-muted"
+            >
+              We remember your preferences on this device. Optional analytics
+              are currently off.
             </p>
             <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium">
-              <Link href="/cookies" className="underline underline-offset-4">Cookie policy</Link>
-              <Link href="/privacy" className="underline underline-offset-4">Privacy policy</Link>
-              {choice && <button type="button" onClick={dismiss} className="underline underline-offset-4">Close settings</button>}
+              <Link href="/cookies" className="underline underline-offset-4">
+                Cookie policy
+              </Link>
+              <Link href="/privacy" className="underline underline-offset-4">
+                Privacy policy
+              </Link>
+              {choice && (
+                <button
+                  type="button"
+                  onClick={dismiss}
+                  className="underline underline-offset-4"
+                >
+                  Close settings
+                </button>
+              )}
             </div>
-            {choice && <p className="mt-2 text-xs text-brand-muted">Saved preference: {choice === "analytics" ? "Allow analytics" : "Essential only"}</p>}
+            {choice && (
+              <p className="mt-2 text-xs text-brand-muted">
+                Saved preference:{" "}
+                {choice === "analytics" ? "Allow analytics" : "Essential only"}
+              </p>
+            )}
           </div>
           <div className="grid gap-2">
-            <button type="button" className={`${buttonClass} border border-brand-ink/15 bg-brand-purple text-brand-ink hover:bg-brand-purple/85`} onClick={() => save("analytics")}>
+            <button
+              type="button"
+              className={`${buttonClass} border border-brand-ink/15 bg-brand-purple text-brand-ink hover:bg-brand-purple/85`}
+              onClick={() => save("analytics")}
+            >
               Allow analytics
             </button>
-            <button type="button" className={`${buttonClass} bg-brand-ink text-white hover:bg-brand-muted`} onClick={() => save("essential")}>
+            <button
+              type="button"
+              className={`${buttonClass} bg-brand-ink text-white hover:bg-brand-muted`}
+              onClick={() => save("essential")}
+            >
               Use essential only
             </button>
           </div>
@@ -105,4 +153,3 @@ export default function PrivacyChoices({ children }: { children: React.ReactNode
     </PrivacyChoicesContext.Provider>
   );
 }
-

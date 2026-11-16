@@ -1,18 +1,7 @@
 "use client";
 
-import {
-  useRef,
-  useState,
-  useEffect,
-  useMemo,
-  ReactNode,
-} from "react";
-import {
-  motion,
-  useTransform,
-  useMotionValue,
-  useReducedMotion,
-} from "framer-motion";
+import { useState, ReactNode } from "react";
+import { motion } from "framer-motion";
 import {
   Search,
   BarChart3,
@@ -69,10 +58,7 @@ function MockHeader({
         className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
         style={{ background: `${tone}1A` }}
       >
-        <span
-          className="w-2 h-2 rounded-full"
-          style={{ background: tone }}
-        />
+        <span className="w-2 h-2 rounded-full" style={{ background: tone }} />
       </span>
       <div className="min-w-0">
         <div className="text-[12px] font-semibold text-ink leading-none">
@@ -114,7 +100,11 @@ function SignalBar({
             className="w-3.5 h-3.5 rounded-full flex items-center justify-center shrink-0"
             style={{ background: `${GOOD}1F` }}
           >
-            <Check className="w-2.5 h-2.5" style={{ color: GOOD }} strokeWidth={3} />
+            <Check
+              className="w-2.5 h-2.5"
+              style={{ color: GOOD }}
+              strokeWidth={3}
+            />
           </span>
         )}
         <span className="text-[11px] text-ink/75 truncate">{label}</span>
@@ -171,7 +161,9 @@ function InsightNote({ children }: { children: ReactNode }) {
           className="w-3.5 h-3.5 mt-0.5 shrink-0"
           style={{ color: ACCENT }}
         />
-        <div className="text-[12px] text-ink/75 leading-relaxed">{children}</div>
+        <div className="text-[12px] text-ink/75 leading-relaxed">
+          {children}
+        </div>
       </div>
     </div>
   );
@@ -282,7 +274,10 @@ function SearchResultsCard({
                 </div>
               </div>
               <div className="flex items-center gap-2.5">
-                <div className="hidden sm:flex items-center gap-[3px]" aria-hidden>
+                <div
+                  className="hidden sm:flex items-center gap-[3px]"
+                  aria-hidden
+                >
                   {[0, 1, 2, 3].map((b) => (
                     <span
                       key={b}
@@ -522,7 +517,10 @@ function recruiterSteps(): Step[] {
       pillLabel: "ARISTOTLE · RECRUITING AGENT",
       heading: "Turn a messy hiring need into a real search.",
       body: "Tell Aristotle who you need to hire. It turns a rough role idea into a sharp brief, must-have criteria, search logic, and a candidate pipeline your team can actually act on.",
-      primaryCta: { label: "GUIDE TO BUILDING A ROLE", href: "/resources/aristotle" },
+      primaryCta: {
+        label: "GUIDE TO BUILDING A ROLE",
+        href: "/resources/aristotle",
+      },
       secondaryCta: { label: "BOOK A DEMO", href: "/book-demo" },
       visual: (
         <RoleBriefCard
@@ -547,19 +545,48 @@ function recruiterSteps(): Step[] {
       pillLabel: "CANDIDATE SEARCH",
       heading: "Shortlists ranked by evidence, not resume polish.",
       body: "iNGEN finds candidates using the signals recruiters actually care about: shipped projects, GitHub depth, work history, university, clubs, open-source work, and role fit.",
-      primaryCta: { label: "READ THE HIRING PLAYBOOK", href: "/resources/hiring-playbook" },
+      primaryCta: {
+        label: "READ THE HIRING PLAYBOOK",
+        href: "/resources/hiring-playbook",
+      },
       secondaryCta: { label: "BOOK A DEMO", href: "/book-demo" },
       visual: (
         <SearchResultsCard
           pillLeft="Proof ranked"
           pillRight="High fit"
-          filterChips={["GitHub", "Work history", "Projects", "University", "Clubs"]}
+          filterChips={[
+            "GitHub",
+            "Work history",
+            "Projects",
+            "University",
+            "Clubs",
+          ]}
           resultsLabel="Aristotle shortlist · ranked by proof, not keywords"
           rows={[
-            { name: "Maya Chen", role: "Founding FS", company: "Orbit", match: 93 },
-            { name: "Alex Rivera", role: "Backend", company: "Hello AI", match: 92 },
-            { name: "Anika Sharma", role: "Product Systems", company: "Sheridine", match: 91 },
-            { name: "Owen Brooks", role: "Data Launch", company: "Stark", match: 90 },
+            {
+              name: "Maya Chen",
+              role: "Founding FS",
+              company: "Orbit",
+              match: 93,
+            },
+            {
+              name: "Alex Rivera",
+              role: "Backend",
+              company: "Hello AI",
+              match: 92,
+            },
+            {
+              name: "Anika Sharma",
+              role: "Product Systems",
+              company: "Sheridine",
+              match: 91,
+            },
+            {
+              name: "Owen Brooks",
+              role: "Data Launch",
+              company: "Stark",
+              match: 90,
+            },
           ]}
         />
       ),
@@ -573,7 +600,10 @@ function recruiterSteps(): Step[] {
       pillLabel: "SHERLOCK · PROOF AGENT",
       heading: "Know if the candidate is actually legit.",
       body: "Sherlock investigates the evidence behind every candidate. It checks GitHub, projects, work history, university, clubs, and public signals to show whether their profile holds up. No keyword theatre. Just receipts.",
-      primaryCta: { label: "GUIDE TO REVIEWING PROOF", href: "/resources/sherlock" },
+      primaryCta: {
+        label: "GUIDE TO REVIEWING PROOF",
+        href: "/resources/sherlock",
+      },
       secondaryCta: { label: "BOOK A DEMO", href: "/book-demo" },
       visual: (
         <InsightsChartCard
@@ -596,12 +626,20 @@ function recruiterSteps(): Step[] {
       pillLabel: "INTERVIEW COMMAND",
       heading: "Walk into every interview already briefed.",
       body: "iNGEN turns candidate proof into interview context. Your team gets strengths, risks, proof sources, questions, red flags, and a scorecard before the call starts — every interview begins with evidence, not assumptions.",
-      primaryCta: { label: "GUIDE TO PLANNING INTERVIEWS", href: "/resources/interviews" },
+      primaryCta: {
+        label: "GUIDE TO PLANNING INTERVIEWS",
+        href: "/resources/interviews",
+      },
       secondaryCta: { label: "BOOK A DEMO", href: "/book-demo" },
       visual: (
         <EmailComposerCard
           recipientsLabel="Pack ready · Maya Chen · Founding Full-Stack · LOW risk"
-          tokens={["Why this candidate", "Proof summary", "Questions to ask", "Red flags"]}
+          tokens={[
+            "Why this candidate",
+            "Proof summary",
+            "Questions to ask",
+            "Red flags",
+          ]}
           subjectLine="Interview pack — Maya Chen · 6 proof sources · technical screen"
         />
       ),
@@ -615,7 +653,10 @@ function recruiterSteps(): Step[] {
       pillLabel: "HIRING DASHBOARD",
       heading: "Your hiring pipeline, without the spreadsheet chaos.",
       body: "Track candidates, interviews, budget, team capacity, pipeline movement, and next actions in one recruiter command center. Less hiring chaos. More hiring momentum.",
-      primaryCta: { label: "EXPLORE THE DASHBOARD", href: "/resources/dashboard" },
+      primaryCta: {
+        label: "EXPLORE THE DASHBOARD",
+        href: "/resources/dashboard",
+      },
       secondaryCta: { label: "BOOK A DEMO", href: "/book-demo" },
       visual: (
         <HiringDashboardCard
@@ -644,7 +685,10 @@ function studentSteps(): Step[] {
       pillLabel: "ARISTOTLE · ROADMAP",
       heading: "A time-bound path to the role you want.",
       body: "Tell Aristotle your target role, expertise level, and weekly study time. It generates a visual, role-based roadmap — Data Analyst (360h / 9 months), AI Engineer (520h / 14 months), Frontend Engineer (420h / 12 months) — with branch-by-branch topics and per-node completion tracking.",
-      primaryCta: { label: "GUIDE TO BUILDING A ROADMAP", href: "/resources/roadmap" },
+      primaryCta: {
+        label: "GUIDE TO BUILDING A ROADMAP",
+        href: "/resources/roadmap",
+      },
       secondaryCta: { label: "TRY THE LIVE PREVIEW", href: "/demo" },
       visual: (
         <RoleBriefCard
@@ -678,10 +722,30 @@ function studentSteps(): Step[] {
           filterChips={["Remote", "Internship", "Startups", "90%+ Match"]}
           resultsLabel="Columbus found 5 roles · ranked by fit, sourced from RemoteOK, HN, GitHub Jobs, Adzuna."
           rows={[
-            { name: "Backend Product Engineer", role: "Python · SQL · APIs · $76–94K", company: "Strong fit", match: 96 },
-            { name: "Frontend Engineer", role: "React · TypeScript · $70–88K", company: "High fit", match: 93 },
-            { name: "Data Analyst (New Grad)", role: "SQL · Python", company: "Good fit", match: 88 },
-            { name: "ML Intern", role: "Projects · Repos", company: "Worth a look", match: 84 },
+            {
+              name: "Backend Product Engineer",
+              role: "Python · SQL · APIs · $76–94K",
+              company: "Strong fit",
+              match: 96,
+            },
+            {
+              name: "Frontend Engineer",
+              role: "React · TypeScript · $70–88K",
+              company: "High fit",
+              match: 93,
+            },
+            {
+              name: "Data Analyst (New Grad)",
+              role: "SQL · Python",
+              company: "Good fit",
+              match: 88,
+            },
+            {
+              name: "ML Intern",
+              role: "Projects · Repos",
+              company: "Worth a look",
+              match: 84,
+            },
           ]}
         />
       ),
@@ -695,11 +759,19 @@ function studentSteps(): Step[] {
       pillLabel: "ARISTOTLE · PROOF PROFILE",
       heading: "A recruiter-grade dossier, verified by Aristotle.",
       body: "GitHub, projects, hackathons, certifications, testimonials, and society work get scored, verified, and stacked as evidence — skill confidence chips, proof-scored project cards, a role-fit summary with 5 signals, and a readiness meter per track (Frontend, Backend, AI Product).",
-      primaryCta: { label: "GUIDE TO PROOF PROFILES", href: "/resources/profile" },
+      primaryCta: {
+        label: "GUIDE TO PROOF PROFILES",
+        href: "/resources/profile",
+      },
       secondaryCta: { label: "TRY THE LIVE PREVIEW", href: "/demo" },
       visual: (
         <InsightsChartCard
-          filterChips={["82% Ready", "7 Projects", "12 Repos", "3 Certifications"]}
+          filterChips={[
+            "82% Ready",
+            "7 Projects",
+            "12 Repos",
+            "3 Certifications",
+          ]}
           resultsLabel="Verified by Aristotle · 4 project proofs (96 / 91 proof scores) · 5 role-fit signals."
           bars={[
             { label: "React", value: 93, color: "#6B2F8E" },
@@ -718,7 +790,10 @@ function studentSteps(): Step[] {
       pillLabel: "ARISTOTLE · INTERVIEW COACH",
       heading: "Walk in already knowing the answers.",
       body: "Aristotle turns each project, repo, and signal in your profile into rehearsable talking points — role-fit answers tied to the JD, project stories that show shipped judgment, and a strength-and-gap read so you go into the room prepared, not improvising.",
-      primaryCta: { label: "GUIDE TO INTERVIEW PREP", href: "/resources/interview-prep" },
+      primaryCta: {
+        label: "GUIDE TO INTERVIEW PREP",
+        href: "/resources/interview-prep",
+      },
       secondaryCta: { label: "TRY THE LIVE PREVIEW", href: "/demo" },
       visual: (
         <EmailComposerCard
@@ -737,7 +812,10 @@ function studentSteps(): Step[] {
       pillLabel: "COLLECTIONS · SAVED WORKSPACE",
       heading: "A tailored version of you for every role.",
       body: "Save Columbus job dossiers, Aristotle roadmaps, and tailored profile variants (Backend, IBM SDE, Frontend) in one library. High-signal saves stay in reach so each application gets the right version of you — not a generic resume.",
-      primaryCta: { label: "GUIDE TO USING COLLECTIONS", href: "/resources/collections" },
+      primaryCta: {
+        label: "GUIDE TO USING COLLECTIONS",
+        href: "/resources/collections",
+      },
       secondaryCta: { label: "TRY THE LIVE PREVIEW", href: "/demo" },
       visual: (
         <HiringDashboardCard
@@ -767,33 +845,67 @@ export default function HowItWorks() {
     <section className="editorial-section" aria-label="Explore the workspace">
       <div className="showcase-tabs" role="tablist" aria-label="Feature steps">
         {steps.map((item, index) => (
-          <button key={item.id} id={"step-" + item.id} role="tab"
-            aria-selected={active === index} aria-controls="feature-preview"
+          <button
+            key={item.id}
+            id={"step-" + item.id}
+            role="tab"
+            aria-selected={active === index}
+            aria-controls="feature-preview"
             tabIndex={active === index ? 0 : -1}
             onKeyDown={(event) => {
               const keys = ["ArrowRight", "ArrowLeft", "Home", "End"];
               if (!keys.includes(event.key)) return;
               event.preventDefault();
-              const next = event.key === "Home" ? 0 : event.key === "End" ? steps.length - 1 : (index + (event.key === "ArrowRight" ? 1 : -1) + steps.length) % steps.length;
+              const next =
+                event.key === "Home"
+                  ? 0
+                  : event.key === "End"
+                    ? steps.length - 1
+                    : (index +
+                        (event.key === "ArrowRight" ? 1 : -1) +
+                        steps.length) %
+                      steps.length;
               setActive(next);
               document.getElementById("step-" + steps[next].id)?.focus();
             }}
-            onClick={() => setActive(index)}>{item.tabLabel}</button>
+            onClick={() => setActive(index)}
+          >
+            {item.tabLabel}
+          </button>
         ))}
       </div>
-      <div role="tabpanel" id="feature-preview" aria-labelledby={"step-" + step.id}>
+      <div
+        role="tabpanel"
+        id="feature-preview"
+        aria-labelledby={"step-" + step.id}
+      >
         <div className="showcase-stage">
           <div className="showcase-prompt">
             <p className="eyebrow">Inside the workspace</p>
-            <h3>{audience === "student" ? "Start with where you want to go." : "Bring a question. Leave with a plan."}</h3>
-            <p>{audience === "student" ? "“I want to move into frontend development. What should I build next?”" : "“We’re hiring our first full-stack engineer. Help me turn these notes into a role brief.”"}</p>
-            <p className="mt-6 text-xs text-black/50">Illustrative product preview</p>
+            <h3>
+              {audience === "student"
+                ? "Start with where you want to go."
+                : "Bring a question. Leave with a plan."}
+            </h3>
+            <p>
+              {audience === "student"
+                ? "“I want to move into frontend development. What should I build next?”"
+                : "“We’re hiring our first full-stack engineer. Help me turn these notes into a role brief.”"}
+            </p>
+            <p className="mt-6 text-xs text-black/50">
+              Illustrative product preview
+            </p>
           </div>
-          <div className="showcase-visual" key={audience + step.id}>{step.visual}</div>
+          <div className="showcase-visual" key={audience + step.id}>
+            {step.visual}
+          </div>
         </div>
         <div className="showcase-caption">
           <h3>{step.heading}</h3>
-          <div><p>{step.body}</p><a href={step.primaryCta.href}>Explore this workflow →</a></div>
+          <div>
+            <p>{step.body}</p>
+            <a href={step.primaryCta.href}>Explore this workflow →</a>
+          </div>
         </div>
       </div>
     </section>
