@@ -14,7 +14,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useAudience } from "./AudienceContext";
 
-const SIGNUP_URL = "https://www.ingenworkspace.com/signup";
+const SIGNUP_URL = "/signup";
 
 declare global {
   interface Window {

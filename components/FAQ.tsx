@@ -126,11 +126,13 @@ function FAQSection({
   items,
   intro,
   ctaLabel,
+  ctaHref,
   heading = "Your questions, answered",
 }: {
   items: { q: string; a: string }[];
   intro: string;
   ctaLabel: string;
+  ctaHref: string;
   heading?: string;
 }) {
   return (
@@ -158,7 +160,7 @@ function FAQSection({
           <p className="mt-5 text-[15px] text-black/65 max-w-md leading-relaxed">
             {intro}
           </p>
-          <a href="/signup" className="btn-dark mt-7">{ctaLabel}</a>
+          <a href={ctaHref} className="btn-dark mt-7">{ctaLabel}</a>
         </motion.div>
 
         {/* RIGHT */}
@@ -194,6 +196,7 @@ export default function FAQ() {
         heading="FORGE questions, answered"
         intro="Everything you need to know about Aristotle, Columbus, and the four-module student workspace."
         ctaLabel="Start free"
+        ctaHref="/signup"
       />
     );
   }
@@ -202,6 +205,7 @@ export default function FAQ() {
       items={recruiterFaqs}
       intro="We're here to help. Reach out to our team for guidance on how to integrate iNGen — Aristotle for workflow, Sherlock for proof — into your hiring stack."
       ctaLabel="Book a Demo"
+      ctaHref="/book-demo"
     />
   );
 }
