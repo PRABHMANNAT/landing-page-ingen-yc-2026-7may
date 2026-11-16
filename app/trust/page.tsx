@@ -205,7 +205,7 @@ const SECTIONS: { title: string; body: React.ReactNode }[] = [
         <li>Multi-AZ deployments with automated failover.</li>
         <li>Recovery point objective (RPO): 1 hour. Recovery time objective (RTO): 4 hours.</li>
         <li>Quarterly disaster recovery exercises.</li>
-        <li>Status page at <OrangeLink href="/signup" external>status.ingenworkspace.com</OrangeLink>.</li>
+        <li><OrangeLink href="/resources/status">Service status enquiries and incident support</OrangeLink>.</li>
       </ul>
     ),
   },

@@ -243,7 +243,7 @@ export default function FeaturesShell() {
 
   const primaryHref = isStudent ? "/signup" : "/book-demo";
   const primaryLabel = isStudent ? "Join the FORGE waitlist" : "Book a demo";
-  const secondaryHref = "/#live-demo";
+  const secondaryHref = "/demo";
   const secondaryLabel = "See the live preview";
 
   return (
