@@ -1,176 +1,99 @@
 "use client";
 
+import Link from "next/link";
 import Logo from "./Logo";
+import PolicyLinks from "./PolicyLinks";
 import { useAudience } from "./AudienceContext";
 
-const linkHrefs: Record<string, string> = {
-  Careers: "https://v0-ingen-labs-careers-page.vercel.app/",
-  "Trust Center": "/trust",
-  "Privacy Choices": "/privacy",
-  "Data handling": "/privacy",
+type FooterGroup = { title: string; links: [label: string, href: string][] };
+
+const company: FooterGroup = {
+  title: "Company",
+  links: [
+    ["About Us", "/resources/about"],
+    ["Careers", "https://v0-ingen-labs-careers-page.vercel.app/"],
+    ["Blog", "/resources/blog"],
+    ["Media Kit", "/resources/media"],
+    ["Press", "/resources/press"],
+  ],
 };
 
-const recruiterCols = [
-  { title: "Platform", links: ["Dashboard", "Aristotle — workflow AI", "Sherlock — proof AI", "Interviews", "Settings"] },
-  { title: "Resources", links: ["Docs", "Pricing", "Hiring playbook", "Proof scoring guide", "Partners", "Help Center"] },
-  { title: "Company", links: ["About Us", "Careers", "Blog", "Media Kit", "Press"] },
-  { title: "Security & Legal", links: ["Trust Center", "AI Audit Center", "Privacy Choices", "Data handling"] },
+const recruiterGroups: FooterGroup[] = [
+  { title: "Platform", links: [
+    ["Dashboard", "/resources/dashboard"],
+    ["Aristotle — workflow AI", "/resources/aristotle"],
+    ["Sherlock — proof AI", "/resources/sherlock"],
+    ["Interviews", "/resources/interviews"],
+    ["Settings", "/resources/settings"],
+  ] },
+  { title: "Resources", links: [
+    ["Docs", "/resources/docs"], ["Pricing", "/pricing"],
+    ["Hiring playbook", "/resources/hiring-playbook"],
+    ["Proof scoring guide", "/resources/proof-scoring"],
+    ["Partners", "/resources/partners"], ["Help Center", "/resources/help"],
+  ] },
+  company,
+  { title: "Security & Legal", links: [
+    ["Trust Center", "/trust"], ["AI Audit Center", "/resources/ai-audit"],
+    ["Privacy Choices", "/cookies"], ["Data handling", "/privacy"],
+  ] },
 ];
 
-const studentCols = [
-  { title: "Platform", links: ["Roadmap (Aristotle)", "Jobs (Columbus)", "Manage Profile", "Collections", "Chrome Extension"] },
-  { title: "Resources", links: ["Docs", "Pricing", "Roadmap Library", "Sample Profiles", "Interview Prep", "Help Center"] },
-  { title: "For Students", links: ["Free tier", "Campus ambassadors", "Referral", "Discord community", "Study guides"] },
-  { title: "Company", links: ["About Us", "Careers", "Blog", "Media Kit", "Press"] },
+const studentGroups: FooterGroup[] = [
+  { title: "Platform", links: [
+    ["Roadmap (Aristotle)", "/resources/roadmap"], ["Jobs (Columbus)", "/resources/jobs"],
+    ["Manage Profile", "/resources/profile"], ["Collections", "/resources/collections"],
+    ["Chrome Extension", "/resources/extension"],
+  ] },
+  { title: "Resources", links: [
+    ["Docs", "/resources/docs"], ["Pricing", "/pricing"],
+    ["Roadmap Library", "/resources/roadmap-library"], ["Sample Profiles", "/resources/sample-profiles"],
+    ["Interview Prep", "/resources/interview-prep"], ["Help Center", "/resources/help"],
+  ] },
+  { title: "For Students", links: [
+    ["Student access", "/resources/student-access"], ["Campus ambassadors", "/resources/ambassadors"],
+    ["Referral", "/resources/referrals"], ["Discord community", "/resources/community"],
+    ["Study guides", "/resources/study-guides"],
+  ] },
+  company,
 ];
-
-function RecruiterFooter() {
-  return (
-    <footer className="bg-brand-deep text-white relative overflow-hidden">
-      <div className="mx-auto max-w-[1320px] px-6 pt-20 pb-10">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-10 pb-16 border-b border-white/10">
-          {recruiterCols.map((c) => (
-            <div key={c.title}>
-              <h4 className="label-mono text-white/55 mb-4">{c.title}</h4>
-              <ul className="space-y-2.5 text-[13px]">
-                {c.links.map((l) => {
-                  const href = linkHrefs[l] ?? "/signup";
-                  const external = href.startsWith("http");
-                  return (
-                    <li key={l}>
-                      <a
-                        href={href}
-                        {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                        className="text-white/85 hover:text-white"
-                      >
-                        {l}
-                      </a>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          ))}
-
-          <div>
-            <h4 className="label-mono text-white/55 mb-4">Get Started</h4>
-            <ul className="space-y-2.5 text-[13px]">
-              <li><a href="/signup" className="text-white/85 hover:text-white">Free Trial</a></li>
-              <li><a href="/signup" className="text-white/85 hover:text-white">Sign In</a></li>
-              <li><a href="/signup" className="text-white/85 hover:text-white">Book a Demo</a></li>
-            </ul>
-            <a href="/signup" className="mt-5 inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 transition rounded-md px-3 py-2 text-[12px]">
-              <span className="w-7 h-7 rounded-full bg-white/15 flex items-center justify-center">
-                <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 2L9 6L3 10V2Z" fill="white" /></svg>
-              </span>
-              Watch Sherlock prove a profile
-            </a>
-          </div>
-        </div>
-
-        <div className="relative mt-16">
-          <div className="font-display text-[120px] md:text-[180px] leading-none text-white/5 tracking-tightest select-none pointer-events-none">
-            iNGEN
-          </div>
-          <div className="absolute inset-x-0 bottom-0 flex flex-wrap items-center justify-between gap-4 text-[12px] text-white/60">
-            <div className="flex items-center gap-3">
-              <Logo light />
-              <span>© 2026 iNGEN</span>
-              <span className="opacity-60">·</span>
-              <span>Proof-first hiring</span>
-            </div>
-            <div className="flex items-center gap-5">
-              <a href={linkHrefs.Careers} target="_blank" rel="noopener noreferrer" className="hover:text-white">Careers</a>
-              <span className="opacity-40">·</span>
-              <a href="/privacy" className="hover:text-white">Privacy</a>
-              <span className="opacity-40">·</span>
-              <a href="/terms" className="hover:text-white">Terms</a>
-              <span className="opacity-40">·</span>
-              <a href="/cookies" className="hover:text-white">Cookies</a>
-              <span className="opacity-40">·</span>
-              <a href="/trust" className="hover:text-white">Trust Center</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
-function StudentFooter() {
-  return (
-    <footer className="bg-brand-deep text-white relative overflow-hidden">
-      <div className="mx-auto max-w-[1320px] px-6 pt-20 pb-10">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-10 pb-16 border-b border-white/10">
-          {studentCols.map((c) => (
-            <div key={c.title}>
-              <h4 className="label-mono text-white/55 mb-4">{c.title}</h4>
-              <ul className="space-y-2.5 text-[13px]">
-                {c.links.map((l) => {
-                  const href = linkHrefs[l] ?? "/signup";
-                  const external = href.startsWith("http");
-                  return (
-                    <li key={l}>
-                      <a
-                        href={href}
-                        {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                        className="text-white/85 hover:text-white"
-                      >
-                        {l}
-                      </a>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          ))}
-
-          <div>
-            <h4 className="label-mono text-white/55 mb-4">Get Started</h4>
-            <ul className="space-y-2.5 text-[13px]">
-              <li><a href="/signup" className="text-white/85 hover:text-white">Start free</a></li>
-              <li><a href="/signup" className="text-white/85 hover:text-white">Sign In</a></li>
-              <li><a href="/signup" className="text-white/85 hover:text-white">Book a Demo</a></li>
-            </ul>
-            <a href="/signup" className="mt-5 inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 transition rounded-md px-3 py-2 text-[12px]">
-              <span className="w-7 h-7 rounded-full bg-white/15 flex items-center justify-center">
-                <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 2L9 6L3 10V2Z" fill="white" /></svg>
-              </span>
-              Watch Aristotle build a roadmap
-            </a>
-          </div>
-        </div>
-
-        <div className="relative mt-16">
-          <div className="font-display text-[120px] md:text-[180px] leading-none text-white/5 tracking-tightest select-none pointer-events-none">
-            iNGEN
-          </div>
-          <div className="absolute inset-x-0 bottom-0 flex flex-wrap items-center justify-between gap-4 text-[12px] text-white/60">
-            <div className="flex items-center gap-3">
-              <Logo light />
-              <span>© 2026 iNGEN</span>
-              <span className="opacity-60">·</span>
-              <span>Proof-first hiring</span>
-            </div>
-            <div className="flex items-center gap-5">
-              <a href={linkHrefs.Careers} target="_blank" rel="noopener noreferrer" className="hover:text-white">Careers</a>
-              <span className="opacity-40">·</span>
-              <a href="/privacy" className="hover:text-white">Privacy</a>
-              <span className="opacity-40">·</span>
-              <a href="/terms" className="hover:text-white">Terms</a>
-              <span className="opacity-40">·</span>
-              <a href="/cookies" className="hover:text-white">Cookies</a>
-              <span className="opacity-40">·</span>
-              <a href="/trust" className="hover:text-white">Trust Center</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
-}
 
 export default function Footer() {
   const { audience } = useAudience();
-  return audience === "student" ? <StudentFooter /> : <RecruiterFooter />;
+  const groups = [
+    ...(audience === "student" ? studentGroups : recruiterGroups),
+    { title: "Get Started", links: [
+      ["Join the waitlist", "/signup"], ["Sign In", "/login"],
+      ["Book a Demo", "/book-demo"], ["Try the live preview", "/demo"],
+    ] } satisfies FooterGroup,
+  ];
+
+  return (
+    <footer className="relative overflow-hidden bg-brand-deep text-white">
+      <div className="mx-auto max-w-[1320px] px-6 pb-10 pt-16">
+        <div className="grid grid-cols-2 gap-8 border-b border-white/10 pb-12 md:grid-cols-5">
+          {groups.map(({ title, links }) => (
+            <div key={title}>
+              <h2 className="label-mono mb-4 text-white/65">{title}</h2>
+              <ul className="space-y-2.5 text-[13px]">
+                {links.map(([label, href]) => (
+                  <li key={label}>
+                    <Link href={href} className="text-white/85 hover:text-white hover:underline">{label}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div aria-hidden="true" className="pointer-events-none mt-10 select-none font-display text-[clamp(68px,16vw,180px)] leading-none tracking-tightest text-white/10">iNGEN</div>
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-x-8 gap-y-5 text-xs text-white/75">
+          <div className="flex flex-wrap items-center gap-3">
+            <Link href="/" aria-label="iNGEN home"><Logo light /></Link>
+            <span>© 2026 iNGEN · Proof-first hiring</span>
+          </div>
+          <PolicyLinks />
+        </div>
+      </div>
+    </footer>
+  );
 }
