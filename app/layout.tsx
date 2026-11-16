@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AudienceProvider } from "@/components/AudienceContext";
+import PrivacyChoices from "@/components/PrivacyChoices";
 
 export const metadata: Metadata = {
   title: "Ingen — Talent, reimagined",
@@ -27,7 +28,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <AudienceProvider>{children}</AudienceProvider>
+        <AudienceProvider><PrivacyChoices>{children}</PrivacyChoices></AudienceProvider>
       </body>
     </html>
   );
