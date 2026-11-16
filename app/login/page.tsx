@@ -2,7 +2,7 @@ import AuthShell from "@/components/auth/AuthShell";
 
 export const metadata = {
   title: "Log in — iNGen",
-  description: "Sign in to your iNGen account.",
+  description: "Find help accessing your invited iNGEN workspace.",
 };
 
 export default function LoginPage() {

@@ -4,6 +4,7 @@ import Link from "next/link";
 import Script from "next/script";
 import { useEffect } from "react";
 import Logo from "@/components/Logo";
+import PolicyLinks from "@/components/PolicyLinks";
 
 const CALENDLY_URL =
   "https://calendly.com/contact-ingenworkspace/product-demo?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=ea7659";
@@ -69,6 +70,11 @@ export default function BookDemoPage() {
             proof-first hiring pipeline. Bring your toughest hiring questions and
             we&apos;ll show you exactly how the workspace handles them.
           </p>
+          <p className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-sm">
+            <a href={CALENDLY_URL} className="underline underline-offset-4">Open booking calendar</a>
+            <a href="mailto:contact@ingenworkspace.com?subject=Product%20demo" className="underline underline-offset-4">Email us to book</a>
+          </p>
+          <PolicyLinks className="mt-6 text-brand-ink/75" />
         </div>
 
         {/* RIGHT: Calendly inline widget */}
@@ -77,7 +83,7 @@ export default function BookDemoPage() {
             id="calendly-embed"
             className="calendly-inline-widget"
             data-url={CALENDLY_URL}
-            style={{ minWidth: 320, height: 700 }}
+            style={{ height: 700 }}
           />
         </div>
       </div>

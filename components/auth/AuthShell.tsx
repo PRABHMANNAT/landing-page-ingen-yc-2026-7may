@@ -4,6 +4,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Logo from "@/components/Logo";
+import PolicyLinks from "@/components/PolicyLinks";
 
 declare global {
   interface Window {
@@ -544,10 +545,10 @@ export default function AuthShell({ mode }: { mode: Mode }) {
     ? "Welcome back to iNGEN"
     : "Welcome to iNGEN";
   const leftSubhead = isLogin
-    ? "Sign in to continue running proof-first hiring"
+    ? "Access for invited iNGEN users"
     : "Proof-first hiring for teams. Career mapping for talent.";
   const rightHeadline = isLogin
-    ? "Sign in to your account"
+    ? "Access your workspace"
     : isWaitlist
     ? "Join the waiting list"
     : "Get started for free";
@@ -648,39 +649,10 @@ export default function AuthShell({ mode }: { mode: Mode }) {
               <WaitlistPanel />
             ) : (
               <div className="mx-auto w-full max-w-[380px] flex flex-col gap-2.5">
-                <ProviderButton icon={GoogleIcon}>Continue with Google</ProviderButton>
-                <ProviderButton icon={EmailIcon}>Continue with Email</ProviderButton>
-
-                <ProviderButton
-                  icon={
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-                      <rect
-                        x="5"
-                        y="11"
-                        width="14"
-                        height="9"
-                        rx="2"
-                        stroke="#1d161d"
-                        strokeWidth="1.6"
-                      />
-                      <path
-                        d="M8 11V8a4 4 0 1 1 8 0v3"
-                        stroke="#1d161d"
-                        strokeWidth="1.6"
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                  }
-                >
-                  Continue with SSO / SAML
-                </ProviderButton>
-
-                <p className="text-center text-[12px] text-brand-ink/60 mt-3">
-                  By proceeding, you agree to our{" "}
-                  <Link href="/terms" className="underline hover:text-brand-ink">
-                    Terms of Service
-                  </Link>
+                <p className="text-center text-sm leading-relaxed text-brand-ink/75">
+                  Use the workspace link in your invitation email. If you need help finding it, contact support.
                 </p>
+                <Link href="/resources/help" className="btn-outline mx-auto mt-2">Get access help</Link>
 
                 <div className="mt-4 text-center text-[13px] text-brand-ink/70">
                   New to iNGen?{" "}
@@ -694,6 +666,7 @@ export default function AuthShell({ mode }: { mode: Mode }) {
               </div>
             )}
           </div>
+          <PolicyLinks className="mt-6 justify-center text-brand-ink/75" />
         </div>
       </div>
     </main>
