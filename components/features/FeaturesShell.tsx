@@ -1,326 +1,189 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
 import {
-  LayoutDashboard,
-  FileText,
-  Search,
-  Brain,
-  Users,
-  Settings,
-  Route,
-  Briefcase,
-  UserCircle,
-  BookMarked,
-  MessageSquare,
-  Sparkles,
+  ArrowUpRight,
+  CalendarCheck2,
   ChevronDown,
+  ClipboardList,
+  FileCheck2,
+  FolderKanban,
+  LayoutDashboard,
+  ListFilter,
+  MessagesSquare,
+  NotebookPen,
+  Route,
+  ScanSearch,
+  SlidersHorizontal,
+  type LucideIcon,
 } from "lucide-react";
 import { useAudience } from "@/components/AudienceContext";
 import { platformGuides } from "@/data/platformGuides";
 import { studentDocumentation } from "@/data/studentDocumentation";
+import FeatureHero from "./FeatureHero";
 import FeatureDocumentation from "./FeatureDocumentation";
 import WorkflowVisual from "../WorkflowVisual";
 
 type Feature = {
-  icon: React.ComponentType<{ className?: string }>;
-  agent: "Aristotle" | "Sherlock" | "Columbus" | "Workspace";
+  icon: LucideIcon;
+  label: string;
   title: string;
-  body: string;
-  bullets: string[];
+  description: string;
+  details: [string, string];
   guide: string;
 };
 
-const RECRUITER_FEATURES: Feature[] = [
+const recruiterFeatures: Feature[] = [
   {
     icon: LayoutDashboard,
-    agent: "Workspace",
-    title: "Startup Hiring Dashboard",
+    label: "Hiring overview",
+    title: "Hiring dashboard",
+    description: "See what’s coming up and who needs to act across your open roles.",
+    details: ["Track interviews and candidate stages", "Review budget, capacity, and next actions"],
     guide: "dashboard",
-    body: "Your daily command center — interviews, budget, capacity, and the next action, all in one grid.",
-    bullets: [
-      "Month calendar with interview dots and today marker",
-      "Upcoming interviews with stage tags and confirmed/pending status",
-      "Live hiring budget, spend breakdown, and runway view",
-      "Now / Next / Then action queue curated by Aristotle",
-      "Pipeline: Shortlisted → Selected → Scheduled → Offer-ready",
-    ],
   },
   {
-    icon: FileText,
-    agent: "Aristotle",
-    title: "Job Brief Builder",
+    icon: ClipboardList,
+    label: "Role planning",
+    title: "Job brief builder",
+    description: "Turn a conversation with Aristotle into a brief the hiring team can review.",
+    details: ["Define responsibilities and role requirements", "Draft a job post and search query from the brief"],
     guide: "aristotle",
-    body: "Two-minute conversational intake that emits a recruiter-ready brief, a LinkedIn post, and a Boolean search query in one pass.",
-    bullets: [
-      "Chat-first intake with quick-start chips",
-      "Live brief renders as you answer",
-      "LinkedIn post and candidate search query auto-generated",
-      "Ready to paste into your sourcing tools",
-    ],
   },
   {
-    icon: Search,
-    agent: "Aristotle",
-    title: "Candidate Search & Intake",
+    icon: ListFilter,
+    label: "Candidate sourcing",
+    title: "Candidate search",
+    description: "Start with a draft job description, then refine the search around the requirements the team agrees on.",
+    details: ["Use a sample role or paste your own brief", "Review a ranked shortlist against your criteria"],
     guide: "aristotle",
-    body: "Paste a draft JD or describe the role roughly. Aristotle turns it into a structured candidate intake and discovery surface.",
-    bullets: [
-      "Pre-set quick-start chips: Backend MVP, Data analyst, Founding full-stack, Product designer v1",
-      "Composer accepts pasted JDs or filter refinements",
-      "Outputs a ranked candidate panel calibrated to your stage",
-    ],
   },
   {
-    icon: Brain,
-    agent: "Sherlock",
-    title: "Analyse Profile",
+    icon: ScanSearch,
+    label: "Evidence review",
+    title: "Profile analysis",
+    description: "Use Sherlock to check the source and context behind a candidate’s claims.",
+    details: ["Review work samples and their sources", "Record unanswered questions for follow-up"],
     guide: "sherlock",
-    body: "Sherlock triangulates GitHub, LinkedIn, university, work, and club signals into a verified proof score — investigation, not vibes.",
-    bullets: [
-      "Deep-dive proof investigation on any candidate",
-      "Confidence scoring with explainable signal trail",
-      "Letter-by-letter “S-h-e-r-l-o-c-k” loading reinforces the agent identity",
-      "Triangulates work, university, OSS, club, and certification signals",
-    ],
   },
   {
-    icon: Users,
-    agent: "Sherlock",
-    title: "Interview Command Live",
+    icon: CalendarCheck2,
+    label: "Interview preparation",
+    title: "Interview workspace",
+    description: "Bring the relevant candidate evidence into the interview so the team can ask better questions.",
+    details: ["Review candidate status and source material", "Prepare role-specific interview questions"],
     guide: "interviews",
-    body: "Sherlock-powered triage and prep — every candidate ready for screen, with proof sources visible at a glance.",
-    bullets: [
-      "Top Proof Sources constellation (USYD, MS, AMZ, GH, AWS, K8S…)",
-      "Sortable table: Candidate · Role · Confidence · Proofs · Interview · Risk",
-      "Status pills: READY, VIP, HIGH FIT, REVIEW",
-      "Quick actions: priority interviews, prep technical screens, open profile",
-    ],
   },
   {
-    icon: Settings,
-    agent: "Workspace",
-    title: "Workspace Settings",
+    icon: SlidersHorizontal,
+    label: "Team administration",
+    title: "Workspace settings",
+    description: "Set up your workspace around how your team hires and reviews candidates.",
+    details: ["Review agent and sourcing preferences", "Configure supported integrations"],
     guide: "settings",
-    body: "Tune the agents, your hiring defaults, interview flow, and integrations to match how your startup hires.",
-    bullets: [
-      "Stage-aware ranking: Idea / Pre-seed / Seed / Series A",
-      "Aristotle tone (Concise / Detailed / Aggressive) + auto-briefs",
-      "Sherlock strictness (Balanced / Strict / Very strict) + GitHub pull",
-      "Integrations: GitHub, LinkedIn, Google Calendar, Gmail, Notion, Slack",
-    ],
   },
 ];
 
-const STUDENT_FEATURES: Feature[] = [
+const studentFeatures: Feature[] = [
   {
     icon: Route,
-    agent: "Aristotle",
+    label: "Learning plan",
     title: "Roadmap",
+    description: "Tell Aristotle your target role and weekly study time. Turn the plan into milestones you can adjust as you go.",
+    details: ["Plan around your experience and weekly hours", "Track completed topics and project milestones"],
     guide: "roadmap",
-    body: "Tell Aristotle your target role, expertise level, and weekly study time. Get a visual, time-bound roadmap calibrated to your goal.",
-    bullets: [
-      "Quick suggestions: Data Analyst (360h / 9mo), AI Engineer (520h / 14mo), Frontend (420h / 12mo)",
-      "Customize by expertise (No experience → Master), goal, and weekly hours",
-      "Mind-map canvas with branch expand and per-node completion",
-      "See completed topics and update your study schedule as you go",
-    ],
   },
   {
-    icon: Briefcase,
-    agent: "Columbus",
-    title: "Jobs · Columbus Scout",
+    icon: ListFilter,
+    label: "Job discovery",
+    title: "Job search",
+    description: "Use Columbus to find roles worth reading and see how they relate to your experience.",
+    details: ["Filter by work type and location", "Review why a role matches and check the source listing"],
     guide: "jobs",
-    body: "Columbus scrapes the open web, ranks roles by fit, explains why they match, and stages dossiers ready to apply.",
-    bullets: [
-      "Sources: RemoteOK, HN Who’s Hiring, GitHub Jobs Archive, Adzuna, company career pages",
-      "Filter pills: Remote · Full-time · Internship · Startups · MNC · 90%+ Match",
-      "Match scores, salary bands, and a one-line relevance summary on every card",
-      "“Columbus found 5 roles · Scout active” headline keeps the agent visible",
-    ],
   },
   {
-    icon: UserCircle,
-    agent: "Aristotle",
-    title: "Manage Profile · Proof Profile",
+    icon: FileCheck2,
+    label: "Work samples",
+    title: "Proof profile",
+    description: "Bring projects, repositories, and certifications together so a reviewer can see what you contributed.",
+    details: ["Add evidence and context to each project", "Use work samples to prepare interview talking points"],
     guide: "profile",
-    body: "Your scattered experience — GitHub, projects, hackathons, certifications, testimonials — verified, scored, and stacked as evidence.",
-    bullets: [
-      "Skill confidence chips (React 93% · TypeScript 91% · Python 88%)",
-      "Stat cards: 4 hackathons · 7 projects · 12 repos · 3 certifications",
-      "Role-fit summary with 5 signals; project cards with proof scores (96 / 91 proof)",
-      "Readiness meter per track — Frontend 92% · Backend 70% · AI Product 84%",
-      "Interview talking points rehearsable before the room",
-    ],
   },
   {
-    icon: BookMarked,
-    agent: "Workspace",
+    icon: FolderKanban,
+    label: "Application organisation",
     title: "Collections",
+    description: "Keep the jobs, roadmaps, and profile versions you need for each application in one place.",
+    details: ["Group saved jobs and work samples by role", "Keep tailored profiles alongside your shortlist"],
     guide: "collections",
-    body: "Every Columbus dossier, tailored profile variant, and Aristotle roadmap saved in one library — a tailored version of you for every role.",
-    bullets: [
-      "Filter pills: All · Saved Profiles · Jobs · Roadmaps",
-      "Summary tiles: 4 Saved Profiles · 4 Job Shortlist · 3 Roadmaps · 6 High-signal saves",
-      "Profile variants: Backend Engineer · IBM SDE I · Frontend role version",
-      "One workspace for the multi-application strategy",
-    ],
   },
   {
-    icon: MessageSquare,
-    agent: "Aristotle",
-    title: "Aristotle Chat",
+    icon: MessagesSquare,
+    label: "Planning assistant",
+    title: "Aristotle chat",
+    description: "Ask for help with the roadmap or profile you’re working on without leaving the workspace.",
+    details: ["Start with a suggested prompt or your own question", "Collapse the chat when you need more room"],
     guide: "roadmap",
-    body: "A persistent left-rail assistant with contextual prompts and quick-suggestion chips, collapsible to free up canvas.",
-    bullets: [
-      "Quick prompts: “Update my profile for backend role at DoorDash”",
-      "“Show leadership and NEXUS society proof”",
-      "“Prepare my profile for AI product internships”",
-      "Chat input always at the bottom of the rail",
-    ],
   },
   {
-    icon: Sparkles,
-    agent: "Workspace",
-    title: "Warm Engineering Notebook",
+    icon: NotebookPen,
+    label: "Workspace layout",
+    title: "Student workspace",
+    description: "Move between your roadmap, profile, and applications from a single workspace.",
+    details: ["Choose light or dark mode", "Find project evidence and saved materials from the workspace"],
     guide: "collections",
-    body: "Cream paper, dotted grid, indigo intelligence, orange highlighter — a workspace that reads like an engineer’s notebook, not a dashboard.",
-    bullets: [
-      "Light and dark modes that preserve accent palette",
-      "Pill buttons, stat tiles, proof badges, quick-prompt chips",
-      "Verified-by-Aristotle marks and proof-score overlays",
-      "“STUDENT” role indicator in the rail; iNGEN logo branding above it",
-    ],
   },
 ];
 
-function AgentChip({ agent }: { agent: Feature["agent"] }) {
-  const styles: Record<Feature["agent"], string> = {
-    Aristotle: "bg-[#6366F1]/10 text-[#6366F1] border-[#6366F1]/25",
-    Sherlock: "bg-[#7A3CA8]/10 text-[#6B2F8E] border-[#7A3CA8]/25",
-    Columbus: "bg-[#1F6F73]/10 text-[#1F6F73] border-[#1F6F73]/25",
-    Workspace: "bg-black/[0.04] text-brand-ink/70 border-black/10",
-  };
-  return (
-    <span
-      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-mono uppercase tracking-[0.12em] ${styles[agent]}`}
-    >
-      {agent === "Workspace" ? "Workspace tool" : `Powered by ${agent}`}
-    </span>
-  );
-}
+function FeatureCard({ feature }: { feature: Feature }) {
+  const Icon = feature.icon;
+  const documentation = studentDocumentation[feature.guide];
+  const steps = documentation?.labels ?? platformGuides[feature.guide].steps;
 
-function FeatureCard({ f, index }: { f: Feature; index: number }) {
-  const Icon = f.icon;
-  const documentation = studentDocumentation[f.guide];
-  const steps = documentation?.labels ?? platformGuides[f.guide].steps;
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.5, delay: Math.min(index * 0.05, 0.3), ease: [0.22, 1, 0.36, 1] }}
-      className="group relative rounded-2xl border border-black/5 bg-white p-6 sm:p-7 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"
-    >
-      <div className="flex items-start justify-between gap-3 mb-4">
-        <div className="grid size-12 shrink-0 place-items-center rounded-2xl border border-[#e6c9b9] bg-[#f8e8df]">
-          <Icon className="size-6 text-[#87503c]" />
+    <article className="flex min-w-0 flex-col self-start rounded-2xl border border-[#e4dbcf] bg-white p-5 shadow-[0_12px_28px_-25px_rgba(57,36,22,0.35)] sm:p-6">
+      <div className="flex items-center gap-3.5">
+        <div className="grid size-12 shrink-0 place-items-center rounded-xl border border-[#e8dac8] bg-[#f5eadc] text-[#694833]">
+          <Icon size={23} strokeWidth={1.65} aria-hidden />
         </div>
-        <AgentChip agent={f.agent} />
+        <div className="min-w-0">
+          <p className="text-xs font-medium text-[#755747]">{feature.label}</p>
+          <h3 className="mt-0.5 font-display text-xl leading-6 text-brand-ink">{feature.title}</h3>
+        </div>
       </div>
-      <h3 className="font-display text-[20px] sm:text-[22px] leading-snug text-brand-ink">
-        {f.title}
-      </h3>
-      <p className="mt-2 text-[14px] leading-relaxed text-brand-ink/70">{f.body}</p>
-      <ul className="mt-4 space-y-1.5">
-        {f.bullets.map((b) => (
-          <li
-            key={b}
-            className="relative pl-4 text-[13px] leading-6 text-brand-ink/75 before:content-[''] before:absolute before:left-0 before:top-[10px] before:w-1.5 before:h-1.5 before:rounded-full before:bg-brand-purple/70"
-          >
-            {b}
-          </li>
-        ))}
+      <p className="mt-4 text-sm leading-6 text-brand-muted">{feature.description}</p>
+      <ul className="mt-4 space-y-2 border-l border-[#e5d5c4] pl-3 text-sm leading-5 text-[#594e45]">
+        {feature.details.map(detail => <li key={detail}>{detail}</li>)}
       </ul>
-      <details className="group/preview mt-5 border-t border-forge-line pt-4">
-        <summary className="flex min-h-9 cursor-pointer list-none items-center justify-between gap-2 text-sm font-semibold text-[#87503c] [&::-webkit-details-marker]:hidden">
-          Try the {f.title === "Roadmap" ? "roadmap" : "workflow"} demo
-          <ChevronDown size={16} className="motion-safe:transition-transform group-open/preview:rotate-180" aria-hidden />
+      <details className="group/preview mt-5 rounded-xl border border-[#ebe2d6] bg-[#fcfaf6] px-3 group-open/preview:pb-3">
+        <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 text-sm font-semibold text-[#714c37] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#87503c] [&::-webkit-details-marker]:hidden">
+          Try the workflow
+          <ChevronDown size={16} className="shrink-0 motion-safe:transition-transform group-open/preview:rotate-180" aria-hidden />
         </summary>
-        <WorkflowVisual title={f.title} steps={steps} details={documentation?.notes} className="mt-3" />
+        <WorkflowVisual title={feature.title} steps={steps} details={documentation?.notes} className="mb-3" />
+        <Link href={`/resources/${feature.guide}`} className="inline-flex items-center gap-1.5 px-1 text-sm font-medium text-[#714c37] underline-offset-4 hover:underline">
+          Read the guide <ArrowUpRight size={14} aria-hidden />
+        </Link>
       </details>
-    </motion.article>
+    </article>
   );
 }
 
 export default function FeaturesShell() {
   const { audience, setAudience } = useAudience();
   const isStudent = audience === "student";
-  const features = isStudent ? STUDENT_FEATURES : RECRUITER_FEATURES;
-
-  const eyebrow = isStudent ? "FORGE · STUDENT FEATURES" : "RECRUITER FEATURES";
-  const heading = isStudent
-    ? "From scattered experience to recruiter-grade proof."
-    : "A proof-first command center for startup hiring.";
-  const sub = isStudent
-    ? "Aristotle plans your roadmap, profile, and interview prep. Columbus scouts roles ranked by fit. Collections keeps every tailored version of you ready to apply."
-    : "Aristotle compresses sourcing and brief creation. Sherlock triangulates GitHub, LinkedIn, university, and club signals into a confidence-scored pipeline. One workspace — calendar, budget, candidates, interviews — for founders and recruiters at Idea → Series A.";
-
-  const primaryHref = isStudent ? "/signup" : "/book-demo";
-  const primaryLabel = isStudent ? "Join the FORGE waitlist" : "Book a demo";
-  const secondaryHref = "/demo";
-  const secondaryLabel = "See the live preview";
+  const features = isStudent ? studentFeatures : recruiterFeatures;
 
   return (
     <>
-      <section
-        className={`relative overflow-hidden ${
-          isStudent ? "bg-[#F5EDE0] text-forge-ink" : "bg-brand-bg text-brand-ink"
-        }`}
-      >
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-[0.35] [background-image:radial-gradient(rgba(14,14,16,0.18)_1px,transparent_1px)] [background-size:18px_18px]"
-        />
-        <div className="mx-auto max-w-[1100px] px-5 sm:px-6 pt-14 sm:pt-20 pb-10 sm:pb-14 relative">
-          <div className="text-center max-w-[820px] mx-auto">
-            <p className="label-mono text-brand-ink/55">{eyebrow}</p>
-            <h1 className="mt-4 font-display text-[34px] sm:text-[44px] md:text-[56px] leading-[1.02] tracking-tightest">
-              {heading}
-            </h1>
-            <p className="mt-5 text-[15px] sm:text-[17px] leading-relaxed text-brand-ink/70">
-              {sub}
-            </p>
-            <div className="mt-7 flex flex-wrap justify-center gap-2">
-              <Link
-                href={primaryHref}
-                className="workflow-action workflow-action-primary"
-              >
-                {primaryLabel}
-              </Link>
-              <Link
-                href={secondaryHref}
-                className="workflow-action workflow-action-secondary"
-              >
-                {secondaryLabel}
-              </Link>
-            </div>
-            <p className="mt-5 text-[12px] font-mono uppercase tracking-[0.18em] text-brand-ink/45">
-              {isStudent
-                ? "Aristotle · Columbus · Roadmap · Jobs · Proof Profile · Collections"
-                : "Aristotle · Sherlock · Dashboard · Briefs · Search · Interviews · Settings"}
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-brand-bg px-5 sm:px-6 pt-12 sm:pt-16 pb-20 sm:pb-24">
+      <FeatureHero isStudent={isStudent} />
+      <section aria-labelledby="feature-overview" className="bg-brand-bg px-5 pb-20 pt-10 sm:px-6 sm:pb-24 sm:pt-14">
         <div className="mx-auto max-w-[1180px]">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-            {features.map((f, i) => (
-              <FeatureCard key={f.title} f={f} index={i} />
-            ))}
+          <h2 id="feature-overview" className="mb-5 font-display text-2xl text-brand-ink sm:text-[28px]">
+            {isStudent ? "Tools for planning and applying" : "Tools for each stage of hiring"}
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {features.map(feature => <FeatureCard key={feature.title} feature={feature} />)}
           </div>
 
           <div className="mt-16 sm:mt-20 rounded-2xl border border-black/5 bg-white p-6 sm:p-10 shadow-sm text-center">

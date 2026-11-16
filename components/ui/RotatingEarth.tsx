@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Pause, Play } from "lucide-react";
 
 type Point = [number, number, number];
 const radians = Math.PI / 180;
@@ -37,7 +36,6 @@ const routes = [
 export default function RotatingEarth({ tone }: { tone: "dark" | "light" }) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const [ready, setReady] = useState(false);
-  const [paused, setPaused] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const longitude = useRef(0.9);
   const student = tone === "light";
@@ -130,7 +128,7 @@ export default function RotatingEarth({ tone }: { tone: "dark" | "light" }) {
     const observer = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
       cancelAnimationFrame(frame);
-      if (visible && land.length && !paused) frame = requestAnimationFrame(animate);
+      if (visible && land.length) frame = requestAnimationFrame(animate);
     });
     observer.observe(element);
     fetch("/editorial/globe-land.json", { signal: request.signal })
@@ -143,7 +141,7 @@ export default function RotatingEarth({ tone }: { tone: "dark" | "light" }) {
         land = points.map(([latitude, lng]) => unitPoint(latitude, lng));
         draw(longitude.current);
         setReady(true);
-        if (visible && !paused) frame = requestAnimationFrame(animate);
+        if (visible) frame = requestAnimationFrame(animate);
       })
       .catch(() => { /* The prerendered globe remains visible if land data fails. */ });
 
@@ -152,7 +150,7 @@ export default function RotatingEarth({ tone }: { tone: "dark" | "light" }) {
       observer.disconnect();
       cancelAnimationFrame(frame);
     };
-  }, [paused, reducedMotion, student]);
+  }, [reducedMotion, student]);
 
   const showCanvas = ready && !reducedMotion;
   return (
@@ -161,13 +159,6 @@ export default function RotatingEarth({ tone }: { tone: "dark" | "light" }) {
         width={size} height={size} className={showCanvas ? "invisible" : undefined} />
       <canvas ref={canvas} width={size} height={size} aria-hidden="true"
         className={`pointer-events-none absolute inset-0 h-full w-full ${showCanvas ? "" : "invisible"}`} />
-      {showCanvas && (
-        <button type="button" onClick={() => setPaused(!paused)}
-          className={`absolute bottom-[4%] right-[4%] grid h-10 w-10 place-items-center rounded-full border focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${student ? "border-black/15 bg-white text-brand-ink" : "border-white/25 bg-[#24172f] text-white"}`}
-          aria-label={paused ? "Resume globe rotation" : "Pause globe rotation"}>
-          {paused ? <Play size={15} aria-hidden /> : <Pause size={15} aria-hidden />}
-        </button>
-      )}
     </div>
   );
 }
