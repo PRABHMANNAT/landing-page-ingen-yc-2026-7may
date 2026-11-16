@@ -62,7 +62,7 @@ export default function PrivacyChoices({ children }: { children: React.ReactNode
     dismiss();
   }
 
-  const buttonClass = "rounded-xl px-4 py-3 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black";
+  const buttonClass = "rounded-xl px-3 py-2 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black";
 
   return (
     <PrivacyChoicesContext.Provider value={choice === undefined ? null : openSettings}>
@@ -74,17 +74,17 @@ export default function PrivacyChoices({ children }: { children: React.ReactNode
           onKeyDown={(event) => {
             if (event.key === "Escape" && choice) dismiss();
           }}
-          className="fixed inset-x-3 bottom-3 z-[100] mx-auto grid max-h-[calc(100dvh-1.5rem)] max-w-5xl gap-4 overflow-y-auto rounded-2xl border border-forge-line bg-brand-bg p-5 text-brand-ink shadow-[0_16px_60px_rgba(0,0,0,0.22)] sm:inset-x-5 sm:bottom-5 sm:grid-cols-[1fr_210px] sm:items-center sm:gap-8 sm:p-7"
+          className="fixed inset-x-3 bottom-3 z-[100] mx-auto grid max-h-[calc(100dvh-1.5rem)] max-w-2xl gap-4 overflow-y-auto rounded-2xl border border-forge-line bg-brand-bg p-4 text-brand-ink shadow-[0_16px_60px_rgba(0,0,0,0.22)] sm:inset-x-5 sm:bottom-5 sm:grid-cols-[1fr_190px] sm:items-center sm:gap-5 sm:p-4"
         >
           <div>
             <p className="label-mono text-brand-muted">Privacy choices</p>
-            <h2 id="privacy-choices-title" ref={heading} tabIndex={-1} className="mt-1 font-display text-2xl leading-tight focus:outline-none">
-              Your privacy, your choice.
+            <h2 id="privacy-choices-title" ref={heading} tabIndex={-1} className="mt-1 font-display text-xl leading-tight focus:outline-none">
+              Your privacy matters.
             </h2>
-            <p id="privacy-choices-description" className="mt-2 text-sm leading-relaxed text-brand-muted">
-              We use browser storage to remember your preferences. You can choose whether to allow optional website analytics. Analytics are currently off on this site.
+            <p id="privacy-choices-description" className="mt-2 text-xs leading-relaxed text-brand-muted">
+              We remember your preferences on this device. Optional analytics are currently off.
             </p>
-            <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium">
+            <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium">
               <Link href="/cookies" className="underline underline-offset-4">Cookie policy</Link>
               <Link href="/privacy" className="underline underline-offset-4">Privacy policy</Link>
               {choice && <button type="button" onClick={dismiss} className="underline underline-offset-4">Close settings</button>}
@@ -105,3 +105,4 @@ export default function PrivacyChoices({ children }: { children: React.ReactNode
     </PrivacyChoicesContext.Provider>
   );
 }
+
