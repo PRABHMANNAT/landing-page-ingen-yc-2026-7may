@@ -758,412 +758,44 @@ function studentSteps(): Step[] {
 
 /* ------------------------------- Section -------------------------------- */
 
-type Props = {
-  sectionNumber?: string;
-  eyebrow?: string;
-  title?: string;
-};
-
-export default function HowItWorks({
-  sectionNumber = "01",
-  eyebrow = "FEATURES",
-  title,
-}: Props) {
+export default function HowItWorks() {
   const { audience } = useAudience();
-  const reducedMotion = useReducedMotion();
-
-  const steps = useMemo(
-    () => (audience === "student" ? studentSteps() : recruiterSteps()),
-    [audience],
-  );
-  const isStudent = audience === "student";
-  const heading =
-    title ?? (isStudent
-      ? "From scattered experience to recruiter-grade proof."
-      : "From role intent to interview-ready talent.");
-  const eyebrowLabel = isStudent ? "FORGE · STUDENT WORKSPACE" : eyebrow;
-  const studentSubheadline =
-    "Aristotle builds your roadmap, profile, and interview prep. Columbus scouts roles ranked by fit. Collections keep every tailored version of you ready to apply.";
-
-  const containerRef = useRef<HTMLDivElement>(null);
-  const stickyRef = useRef<HTMLDivElement>(null);
-  const tabBarRef = useRef<HTMLDivElement>(null);
-  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [indicator, setIndicator] = useState({ x: 0, w: 0 });
-  const [inView, setInView] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(true);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px)");
-    const update = () => setIsDesktop(mq.matches);
-    update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
-  }, []);
-
-  const scrollYProgress = useMotionValue(0);
-
-  useEffect(() => {
-    let raf = 0;
-    const update = () => {
-      const el = containerRef.current;
-      if (!el) return;
-      const offsetTop = el.offsetTop;
-      const range = el.offsetHeight - window.innerHeight;
-      const y = window.scrollY || window.pageYOffset || 0;
-      const p =
-        range > 0 ? Math.min(1, Math.max(0, (y - offsetTop) / range)) : 0;
-      scrollYProgress.set(p);
-      setActiveIndex(
-        Math.min(
-          steps.length - 1,
-          Math.max(0, Math.floor(p * steps.length - 1e-6)),
-        ),
-      );
-    };
-    const onScroll = () => {
-      update();
-    };
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, [scrollYProgress, steps.length]);
-
-  // Smooth color crossfade between bgColors
-  const bgColor = useTransform(
-    scrollYProgress,
-    steps.map((_, i) => i / Math.max(1, steps.length - 1)),
-    steps.map((s) => s.bgColor),
-  );
-
-  // Subtle parallax for the visual card
-  const visualY = useTransform(scrollYProgress, [0, 1], [0, -40]);
-
-  // Heading lift-in on first pin
-  const headingY = useTransform(scrollYProgress, [0, 0.08], [10, 0]);
-  const headingOpacity = useTransform(scrollYProgress, [0, 0.06], [0, 1]);
-
-  // Bottom progress bar scaleX
-  const progressScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
-
-  // Update tab indicator position on activeIndex / resize
-  useEffect(() => {
-    const update = () => {
-      const el = tabRefs.current[activeIndex];
-      const bar = tabBarRef.current;
-      if (!el || !bar) return;
-      const elRect = el.getBoundingClientRect();
-      const barRect = bar.getBoundingClientRect();
-      setIndicator({ x: elRect.left - barRect.left, w: elRect.width });
-    };
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, [activeIndex, steps.length]);
-
-  // Track when section is in view (for keyboard arrow handling)
-  useEffect(() => {
-    if (!containerRef.current) return;
-    const obs = new IntersectionObserver(
-      (entries) => entries.forEach((e) => setInView(e.isIntersecting)),
-      { threshold: 0.2 },
-    );
-    obs.observe(containerRef.current);
-    return () => obs.disconnect();
-  }, []);
-
-  const scrollToStep = (i: number) => {
-    const c = containerRef.current;
-    if (!c) return;
-    const top = c.offsetTop + (i / steps.length) * c.offsetHeight + 1;
-    window.scrollTo({ top, behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    if (!inView) return;
-    const onKey = (e: globalThis.KeyboardEvent) => {
-      if (e.key === "ArrowDown" || e.key === "ArrowRight") {
-        e.preventDefault();
-        scrollToStep(Math.min(steps.length - 1, activeIndex + 1));
-      } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
-        e.preventDefault();
-        scrollToStep(Math.max(0, activeIndex - 1));
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [inView, activeIndex, steps.length]);
-
-  /* ------------------------- Mobile / reduced-motion ------------------------- */
-  if (!isDesktop || reducedMotion) {
-    return (
-      <section className="bg-white">
-        <div className="mx-auto max-w-[1280px] px-6 lg:px-12 pt-16 lg:pt-24 pb-10">
-          <div className="text-[13px] font-mono uppercase tracking-[0.18em] text-ink/60 mb-1.5">
-            [{sectionNumber}] {eyebrowLabel}
-          </div>
-          <h2 className="font-display text-[32px] lg:text-[48px] leading-[1.0] tracking-[-0.02em] text-ink max-w-4xl">
-            {heading}
-          </h2>
-          {audience === "recruiter" && (
-            <p className="mt-4 max-w-2xl text-[15px] lg:text-[17px] leading-relaxed text-ink/70">
-              iNGEN gives recruiters a proof-first hiring workflow: build the role, find candidates,
-              verify evidence, prepare interviews, and move the pipeline — all with Aristotle and
-              Sherlock working behind the scenes.
-            </p>
-          )}
-          {isStudent && (
-            <p className="mt-4 max-w-2xl text-[15px] lg:text-[17px] leading-relaxed text-ink/70">
-              {studentSubheadline}
-            </p>
-          )}
-        </div>
-        <div className="space-y-16 pb-24">
-          {steps.map((step) => (
-            <motion.article
-              key={step.id}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.6, ease: EASE }}
-              className="px-6"
-            >
-              <div className="text-[13px] font-mono uppercase tracking-[0.18em] text-ink/60 mb-3 inline-flex items-center gap-2">
-                <step.icon className="w-3.5 h-3.5" />
-                {step.tabLabel}
-              </div>
-              <div
-                className="rounded-xl p-6 mb-6 relative overflow-hidden"
-                style={{ background: step.bgColor }}
-              >
-                <div className="absolute inset-0 hatched opacity-25 pointer-events-none" />
-                <div className="relative bg-white rounded-xl p-5 shadow-2xl border border-black/[0.06] max-w-[520px] mx-auto">
-                  {step.visual}
-                </div>
-              </div>
-              <span
-                className="inline-block text-[11px] font-mono uppercase tracking-[0.18em] rounded px-2 py-1 mb-3"
-                style={{
-                  background: `${step.accentColor}33`,
-                  color: step.bgColor,
-                }}
-              >
-                {step.pillLabel}
-              </span>
-              <h3 className="font-display text-[26px] leading-[1.1] tracking-[-0.02em] text-ink mb-3">
-                {step.heading}
-              </h3>
-              <p className="text-[15px] leading-[1.55] text-ink/75 mb-5">
-                {step.body}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                <a
-                  href={step.primaryCta.href}
-                  className="text-[12px] font-mono uppercase tracking-[0.1em] bg-ink text-white px-5 py-3"
-                >
-                  {step.primaryCta.label}
-                </a>
-                <a
-                  href={step.secondaryCta.href}
-                  className="text-[12px] font-mono uppercase tracking-[0.1em] border border-ink text-ink px-5 py-3"
-                >
-                  {step.secondaryCta.label}
-                </a>
-              </div>
-            </motion.article>
-          ))}
-        </div>
-        <style jsx>{`
-          .hatched {
-            background-image: repeating-linear-gradient(
-              135deg,
-              transparent 0 6px,
-              rgba(255, 255, 255, 0.18) 6px 7px
-            );
-          }
-        `}</style>
-      </section>
-    );
-  }
-
-  /* ----------------------------- Desktop pinned ----------------------------- */
+  const [active, setActive] = useState(0);
+  const steps = audience === "student" ? studentSteps() : recruiterSteps();
+  const step = steps[Math.min(active, steps.length - 1)];
   return (
-    <section
-      ref={containerRef}
-      className="relative bg-white"
-      style={{ height: `${steps.length * 100}vh` }}
-      aria-label="How it works"
-    >
-      <div
-        ref={stickyRef}
-        className="sticky top-0 h-screen overflow-hidden flex flex-col"
-      >
-        {/* Header */}
-        <motion.div
-          style={{ y: headingY, opacity: headingOpacity }}
-          className="mx-auto max-w-[1280px] w-full px-12 pt-16"
-        >
-          <div className="text-[13px] font-mono uppercase tracking-[0.18em] text-ink/60 mb-1.5">
-            [{sectionNumber}] {eyebrowLabel}
+    <section className="editorial-section" aria-label="Explore the workspace">
+      <div className="showcase-tabs" role="tablist" aria-label="Feature steps">
+        {steps.map((item, index) => (
+          <button key={item.id} id={"step-" + item.id} role="tab"
+            aria-selected={active === index} aria-controls="feature-preview"
+            tabIndex={active === index ? 0 : -1}
+            onKeyDown={(event) => {
+              const keys = ["ArrowRight", "ArrowLeft", "Home", "End"];
+              if (!keys.includes(event.key)) return;
+              event.preventDefault();
+              const next = event.key === "Home" ? 0 : event.key === "End" ? steps.length - 1 : (index + (event.key === "ArrowRight" ? 1 : -1) + steps.length) % steps.length;
+              setActive(next);
+              document.getElementById("step-" + steps[next].id)?.focus();
+            }}
+            onClick={() => setActive(index)}>{item.tabLabel}</button>
+        ))}
+      </div>
+      <div role="tabpanel" id="feature-preview" aria-labelledby={"step-" + step.id}>
+        <div className="showcase-stage">
+          <div className="showcase-prompt">
+            <p className="eyebrow">Inside the workspace</p>
+            <h3>{audience === "student" ? "Start with where you want to go." : "Bring a question. Leave with a plan."}</h3>
+            <p>{audience === "student" ? "“I want to move into frontend development. What should I build next?”" : "“We’re hiring our first full-stack engineer. Help me turn these notes into a role brief.”"}</p>
+            <p className="mt-6 text-xs text-black/50">Illustrative product preview</p>
           </div>
-          <h2 className="font-display text-[48px] leading-[1.0] tracking-[-0.02em] text-ink max-w-4xl">
-            {heading}
-          </h2>
-          {audience === "recruiter" && (
-            <p className="mt-4 max-w-2xl text-[16px] leading-relaxed text-ink/70">
-              iNGEN gives recruiters a proof-first hiring workflow: build the role, find candidates,
-              verify evidence, prepare interviews, and move the pipeline — all with Aristotle and
-              Sherlock working behind the scenes.
-            </p>
-          )}
-          {isStudent && (
-            <p className="mt-4 max-w-2xl text-[16px] leading-relaxed text-ink/70">
-              {studentSubheadline}
-            </p>
-          )}
-        </motion.div>
-
-        {/* Tab strip */}
-        <div
-          ref={tabBarRef}
-          className="relative mt-12 border-y border-ink/15 h-14 flex"
-          role="tablist"
-          aria-label="Feature steps"
-        >
-          {steps.map((step, i) => {
-            const Icon = step.icon;
-            const isActive = activeIndex === i;
-            return (
-              <button
-                key={step.id}
-                ref={(el) => {
-                  tabRefs.current[i] = el;
-                }}
-                role="tab"
-                aria-selected={isActive}
-                aria-controls={`hiw-panel-${step.id}`}
-                onClick={() => scrollToStep(i)}
-                className={`relative flex items-center gap-2 px-4 flex-1 min-w-[180px] max-w-[240px] border-r border-ink/15 transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-ink ${
-                  isActive ? "text-ink" : "text-ink/40 hover:text-ink/70"
-                }`}
-              >
-                <Icon className="w-3.5 h-3.5 shrink-0" />
-                <span className="text-[11px] font-mono tracking-[0.1em] truncate">
-                  {step.tabLabel}
-                </span>
-              </button>
-            );
-          })}
-          <div
-            className="flex-1 hatched-light"
-            aria-hidden
-            style={{ minWidth: 0 }}
-          />
-          <motion.div
-            className="absolute bottom-[-1px] h-[2px] bg-ink"
-            initial={false}
-            animate={{ x: indicator.x, width: indicator.w }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          />
-          <motion.div
-            className="absolute bottom-[-1px] left-0 h-[2px] bg-ink/80 origin-left"
-            style={{ scaleX: progressScale, width: "100%" }}
-            aria-hidden
-          />
+          <div className="showcase-visual" key={audience + step.id}>{step.visual}</div>
         </div>
-
-        {/* Two columns */}
-        <div className="grid grid-cols-2 flex-1 min-h-0">
-          {/* Left visual */}
-          <motion.div
-            className="relative overflow-hidden"
-            style={{ background: bgColor }}
-          >
-            <div className="absolute inset-0 hatched-on-color pointer-events-none" />
-            <div className="relative h-full w-full flex items-center justify-center px-12">
-              <motion.div style={{ y: visualY }} className="w-full max-w-[520px]">
-                <motion.div
-                  key={steps[activeIndex].id}
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, ease: EASE }}
-                  className="bg-white rounded-xl shadow-[0_30px_60px_-20px_rgba(0,0,0,0.25)] border border-black/[0.06] p-5"
-                >
-                  {steps[activeIndex].visual}
-                </motion.div>
-              </motion.div>
-            </div>
-          </motion.div>
-
-          {/* Right text */}
-          <div className="relative bg-white">
-            <div className="h-full w-full px-16 py-16 flex items-center">
-                <motion.div
-                  key={steps[activeIndex].id + "-text"}
-                  id={`hiw-panel-${steps[activeIndex].id}`}
-                  role="tabpanel"
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, ease: EASE }}
-                  className="max-w-[520px]"
-                >
-                  <span
-                    className="inline-block text-[11px] font-mono uppercase tracking-[0.18em] rounded px-2 py-1 mb-5"
-                    style={{
-                      background: `${steps[activeIndex].accentColor}33`,
-                      color: steps[activeIndex].bgColor,
-                    }}
-                  >
-                    {steps[activeIndex].pillLabel}
-                  </span>
-                  <h3 className="font-display text-[32px] leading-[1.05] tracking-[-0.02em] text-ink mb-4">
-                    {steps[activeIndex].heading}
-                  </h3>
-                  <p className="text-[16px] leading-[1.55] text-ink/75 mb-7">
-                    {steps[activeIndex].body}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <a
-                      href={steps[activeIndex].primaryCta.href}
-                      className="text-[12px] font-mono uppercase tracking-[0.1em] bg-ink text-white px-5 py-3"
-                    >
-                      {steps[activeIndex].primaryCta.label}
-                    </a>
-                    <a
-                      href={steps[activeIndex].secondaryCta.href}
-                      className="text-[12px] font-mono uppercase tracking-[0.1em] border border-ink text-ink px-5 py-3"
-                    >
-                      {steps[activeIndex].secondaryCta.label}
-                    </a>
-                  </div>
-                </motion.div>
-            </div>
-          </div>
+        <div className="showcase-caption">
+          <h3>{step.heading}</h3>
+          <div><p>{step.body}</p><a href={step.primaryCta.href}>Explore this workflow →</a></div>
         </div>
       </div>
-
-      <style jsx>{`
-        .hatched-light {
-          background-image: repeating-linear-gradient(
-            135deg,
-            transparent 0 6px,
-            rgba(29, 22, 29, 0.18) 6px 7px
-          );
-        }
-        .hatched-on-color {
-          background-image: repeating-linear-gradient(
-            135deg,
-            transparent 0 8px,
-            rgba(255, 255, 255, 0.12) 8px 9px
-          );
-        }
-      `}</style>
     </section>
   );
 }
